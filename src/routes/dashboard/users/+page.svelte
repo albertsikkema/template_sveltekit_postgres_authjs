@@ -163,7 +163,7 @@
 								onclick={() => openEditItemModal(item)}
 								class="btn btn-circle btn-sm p-1 dark:hover:brightness-90"
 							>
-								<PencilSquareIcon />
+								<PencilSquareIcon class="h-5 w-5"/>
 							</button>
 						</div>
 						<div class="tooltip hidden md:inline" data-tip="log user out">
@@ -171,7 +171,7 @@
 								onclick={() => handleOpenLogoutItemModal(item)}
 								class="btn btn-circle btn-sm p-1 dark:hover:brightness-90"
 							>
-								<ExclamationCircleIcon />
+								<ExclamationCircleIcon class="h-5 w-5"/>
 							</button>
 						</div>
 						<div class="tooltip" data-tip="delete user">
@@ -181,7 +181,7 @@
 								}}
 								class="btn btn-circle btn-sm p-1 text-red-500 dark:text-red-400"
 							>
-								<TrashIcon />
+								<TrashIcon class="h-5 w-5"/>
 							</button>
 						</div>
 					</td>
