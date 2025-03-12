@@ -1,6 +1,6 @@
 <script lang="js">
-	import Sidebar from '$lib/components/Side.svelte';
-	import Footer from '$lib/components/Footer.svelte';
+	import Sidebar from '../../components/Side.svelte';
+	import Footer from '../../components/Footer.svelte';
 
 	let { children } = $props();
 

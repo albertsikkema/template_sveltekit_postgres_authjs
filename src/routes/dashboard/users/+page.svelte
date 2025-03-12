@@ -9,12 +9,12 @@
 	} from 'heroicons-svelte/24/outline';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
-	import TextArea from '$lib/components/form/TextArea.svelte';
-	import Input from '$lib/components/form/Input.svelte';
-	import FileInput from '$lib/components/form/FileInput.svelte';
-	import Select from '$lib/components/form/Select.svelte';
-	import ErrorMessage from '$lib/components/form/ErrorMessage.svelte';
-	import Checkbox from '$lib/components/form/Checkbox.svelte';
+	import TextArea from '../../../components/form/TextArea.svelte';
+	import Input from '../../../components/form/Input.svelte';
+	import FileInput from '../../../components/form/FileInput.svelte';
+	import Select from '../../../components/form/Select.svelte';
+	import ErrorMessage from '../../../components/form/ErrorMessage.svelte';
+	import Checkbox from '../../../components/form/Checkbox.svelte';
 
 	let { data, form } = $props();
 	let isEditing = $state(false);
