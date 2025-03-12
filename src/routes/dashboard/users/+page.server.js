@@ -34,6 +34,7 @@ export const actions = {
     updateuser: async (event) => {
         const data = await event.request.formData();
         const { name, email, role, active } = Object.fromEntries(data);
+        console.log('===> updateuser data', data);
 
         try {
             const isActive = active === 'true' || active === 'on';

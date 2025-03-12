@@ -40,6 +40,7 @@
 		"eslint-plugin-svelte": "^3.0.0",
 		"flowbite-svelte-icons": "^2.0.2",
 		"globals": "^16.0.0",
+		"heroicons-svelte": "^2.0.2",
 		"jsdom": "^26.0.0",
 		"mdsvex": "^0.12.3",
 		"pino": "^9.6.0",
@@ -50,6 +51,7 @@
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"svoast": "^3.0.3",
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
@@ -61,6 +63,7 @@
 		"@auth/sveltekit": "^1.8.0",
 		"dotenv": "^16.4.7",
 		"drizzle-orm": "^0.40.0",
+		"nodemailer": "^6.10.0",
 		"postgres": "^3.4.5"
 	}
 }

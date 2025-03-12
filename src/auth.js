@@ -1,10 +1,11 @@
 import { SvelteKitAuth } from "@auth/sveltekit"
 import GitHub from "@auth/sveltekit/providers/github"
+import Nodemailer from "@auth/sveltekit/providers/nodemailer"
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { db } from '$lib/server/db/index'
-import { users, accounts, sessions, verificationTokens, allowedUsers } from '$lib/server/db/schema'
+import { auth_accounts, auth_authenticators, auth_sessions, auth_users, auth_verificationTokens, users } from '$lib/server/db/schema'
 import { eq } from 'drizzle-orm'
-
+import { env } from "$env/dynamic/private"
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
   callbacks: {
@@ -16,8 +17,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
       // Check if the user exists in the allowed users table and is active
       const allowedUser = await db
         .select()
-        .from(allowedUsers)
-        .where(eq(allowedUsers.email, user.email))
+        .from(users)
+        .where(eq(users.email, user.email))
         .limit(1);
 
       if (allowedUser.length === 0 || !allowedUser[0].active) {
@@ -29,33 +30,40 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 
     async session({ session }) {
       if (!session.user || !session.user?.email) return session; // Return early if no user
-          
+
       // Fetch user role from DB
       const dbUser = await db
         .select()
-        .from(allowedUsers)
-        .where(eq(allowedUsers.email, session.user.email))
+        .from(users)
+        .where(eq(users.email, session.user.email))
         .limit(1);
-     
-      return { ...session, user:
+
+      return {
+        ...session, user:
         {
           ...session.user,
           role: dbUser[0].role,
           email: dbUser[0].email
         }
-       }
-      
+      }
+
     }
   },
 
   adapter: DrizzleAdapter(db,
     {
-      usersTable: users,
-      accountsTable: accounts,
-      sessionsTable: sessions,
-      verificationTokensTable: verificationTokens,
+      usersTable: auth_users,
+      accountsTable: auth_accounts,
+      sessionsTable: auth_sessions,
+      verificationTokensTable: auth_verificationTokens,
     }
 
   ),
-  providers: [GitHub],
+  providers: [GitHub,
+    Nodemailer({
+      server: env.EMAIL_SERVER,
+      from: env.EMAIL_FROM,
+    }),
+
+  ],
 })
