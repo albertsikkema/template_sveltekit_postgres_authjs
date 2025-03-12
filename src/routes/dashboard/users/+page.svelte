@@ -106,8 +106,8 @@
 	}
 </script>
 
-<div class="w-full space-y-6">
-	<div class="flex w-full flex-row items-center justify-between">
+<div class="w-full space-y-6 mb-16 md:px-4 pt-4 md:pt-8">
+	<div class="flex w-full flex-col md:flex-row gap-2 items-center justify-between">
 		<h1 class="text-2xl dark:text-white">Users</h1>
 
 		<label class="input input-bordered flex w-48 items-center gap-2 sm:w-64 md:w-1/2">
@@ -138,19 +138,19 @@
 		<!-- head -->
 		<thead>
 			<tr>
-				<th>Email</th>
-				<th>Name</th>
-				<th class="w-24">Role</th>
-				<th class="w-28">Active</th>
-				<th class="w-36">Actions</th>
+				<th class="">Email</th>
+				<th class="hidden md:table-cell">Name</th>
+				<th class="hidden md:table-cell w-24">Role</th>
+				<th class="min-w-12 md:w-28">Active</th>
+				<th class="min-w-28 md:w-36">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each filteredItems as item}
 				<tr class="hover:bg-base-300">
 					<td>{item.email}</td>
-					<td>{item.name}</td>
-					<td>{item.role}</td>
+					<td  class="hidden md:table-cell">{item.name}</td>
+					<td class="hidden md:table-cell">{item.role}</td>
 					<td>
 						<span
 							class={`badge badge-outline ${item.active ? 'badge-success' : 'badge-error'} w-16`}
@@ -166,7 +166,7 @@
 								<PencilSquareIcon />
 							</button>
 						</div>
-						<div class="tooltip" data-tip="log user out">
+						<div class="tooltip hidden md:inline" data-tip="log user out">
 							<button
 								onclick={() => handleOpenLogoutItemModal(item)}
 								class="btn btn-circle btn-sm p-1 dark:hover:brightness-90"

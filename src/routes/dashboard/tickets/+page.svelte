@@ -118,8 +118,8 @@
 	}
 </script>
 
-<div class="w-full space-y-6">
-	<div class="flex w-full flex-row items-center justify-between">
+<div class="w-full space-y-6 mb-16 md:px-4 pt-4 md:pt-8">
+	<div class="flex w-full flex-col md:flex-row gap-2 items-center justify-between">
 		<h1 class="text-2xl dark:text-white">Tickets</h1>
 
 		<label class="input input-bordered flex w-48 items-center gap-2 sm:w-64 md:w-1/2">
@@ -151,19 +151,19 @@
 		<thead>
 			<tr>
 				<th>Title</th>
-				<th>Description</th>
+				<th class="hidden md:display">Description</th>
 				<th>Status</th>
-				<th>Created_By</th>
-				<th>Assigned_To</th>
+				<th class="hidden md:display">Created_By</th>
+				<th class="hidden md:display">Assigned_To</th>
 				<th>Age</th>
-				<th class="w-28">Actions</th>
+				<th class="min-w-28 md:w-36">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each filteredItems as item}
 				<tr class="hover:bg-base-300">
 					<td>{item.title}</td>
-					<td>{item.description}</td>
+					<td class="hidden md:display">{item.description}</td>
 					<td>
 						<span
 							class={`badge badge-outline ${item.status === 'closed' ? 'badge-success' : 'badge-error'} w-16`}
@@ -171,8 +171,8 @@
 							{item.status === 'closed' ? 'Closed' : 'Open'}
 						</span>
 					</td>
-					<td>{item.created_by}</td>
-					<td>{item.assigned_to}</td>
+					<td class="hidden md:display">{item.created_by}</td>
+					<td class="hidden md:display">{item.assigned_to}</td>
 					<td>{determineage(item.created_at)} day(s)</td>
 
 					<td>
@@ -389,7 +389,7 @@
 						type="reset"
 						class="btn btn-outline w-24"
 						color="light"
-						onclick={() => handleCloseDeleteUserModal()}>Cancel</button
+						onclick={() => handleCloseDeleteItemModal()}>Cancel</button
 					>
 				</div>
 			</form>

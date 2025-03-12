@@ -66,7 +66,7 @@ class={`fixed top-0 left-0 h-full bg-gray-200 bg-base-300 text-base-content w-48
 </nav>
 </div>
 
-<div class="dock md:hidden bg-gray-200">
+<div class="dock bottom-0 z-99 md:hidden bg-gray-200 w-full h-16 ">
 
 		{#each navigation as nav}
 		{#if isAuthorized(nav.permission)}

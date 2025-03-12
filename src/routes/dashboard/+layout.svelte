@@ -6,9 +6,9 @@
 
 </script>
 
-<div class="flex min-h-screen">
+<div class="flex  ">
 	<Sidebar />
-	<main class="mx-auto mt-16 h-full max-w-6xl flex-grow md:ml-48">
+	<main class="min-h-screen w-full  max-w-6xl  md:ml-48">
 		{@render children()}
 	</main>
 	<Footer />
