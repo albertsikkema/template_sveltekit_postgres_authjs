@@ -1,5 +1,5 @@
 <script>
-	let { children='hi there', title='', subtitle='', id='modal' } = $props();
+	let { children = 'hi there', title = '', subtitle = '', id = 'modal' } = $props();
 </script>
 
 <dialog {id} class="modal modal-bottom sm:modal-middle">

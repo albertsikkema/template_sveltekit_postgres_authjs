@@ -1,7 +1,7 @@
 // getAllUrlParams.ts
 export async function getAllUrlParams(url) {
 	console.log('getAllUrlParams', url);
-	let paramsObj= {};
+	let paramsObj = {};
 
 	try {
 		if (!url) return {}; // If no params, return empty object
@@ -18,9 +18,7 @@ export async function getAllUrlParams(url) {
 	return paramsObj;
 }
 // parseMessage.ts
-export async function parseMessage(
-	message
-) {
+export async function parseMessage(message) {
 	let messageObj = {};
 
 	try {
@@ -40,11 +38,8 @@ export async function parseMessage(
 	return messageObj;
 }
 
-
 // parseTrack.ts
-export async function parseTrack(
-	track
-) {
+export async function parseTrack(track) {
 	let trackObj = {};
 
 	try {

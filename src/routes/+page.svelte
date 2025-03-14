@@ -1,10 +1,5 @@
 <script>
-	import { signIn, signOut } from '@auth/sveltekit/client';
-	import { page } from '$app/state';
 	import { ArrowUpOutline, LockOpenOutline } from 'flowbite-svelte-icons';
-
-	const role = page.data?.session?.user?.role;
-	const name = page.data?.session?.user?.name;
 
 	const features = [
 		{
@@ -51,32 +46,6 @@
 			</a>
 
 			<div class="text-xl font-bold">Superapp</div>
-
-			{#if page.data.session}
-				<div class="flex flex-col items-center justify-between sm:flex-row">
-					<span class="mr-4 hidden sm:inline-block">
-						Welcome <strong>{name}</strong>
-					</span>
-					{#if role === 'admin'}
-						<a
-							class="rounded-md bg-transparent p-1 text-center text-sm text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300"
-							href="/admin">Admin<span class="ml-1" aria-hidden="true">&rarr;</span></a
-						>
-					{/if}
-
-					<button
-						class="rounded-md bg-transparent p-1 text-center text-sm text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300"
-						on:click={() => signOut()}
-						>Sign out<span class="ml-1" aria-hidden="true">&rarr;</span></button
-					>
-				</div>
-			{:else}
-				<button
-					class="rounded-md bg-transparent p-1 text-center text-sm text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300"
-					on:click={() => signIn()}
-					>Sign in<span class="ml-1" aria-hidden="true">&rarr;</span></button
-				>
-			{/if}
 		</nav>
 	</header>
 
@@ -106,10 +75,10 @@
 				</div>
 			</div>
 			<div class="text-center">
-				<h1 class="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
+				<h1 class="text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
 					Build fast, Build beautiful, Build anything
 				</h1>
-				<p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
+				<p class="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
 					The time from idea to proof of concept is shorter than ever. Save up to 90% in time and
 					resources!{' '}
 				</p>
@@ -134,7 +103,7 @@
 		<div class="mx-auto max-w-2xl lg:text-center">
 			<h2 class="text-base/7 font-semibold text-indigo-600">Create faster</h2>
 			<p
-				class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-balance"
+				class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl lg:text-balance"
 			>
 				Speed, reliability, and simplicity
 			</p>

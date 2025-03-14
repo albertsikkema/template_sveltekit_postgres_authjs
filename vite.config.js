@@ -7,11 +7,9 @@ export default defineConfig({
 	plugins: [sveltekit(), tailwindcss()],
 	resolve: process.env.VITEST
 		? {
-				conditions: ['browser'],
-		  }
+				conditions: ['browser']
+			}
 		: undefined,
-
-
 
 	test: {
 		workspace: [
@@ -23,7 +21,10 @@ export default defineConfig({
 					name: 'client',
 					environment: 'jsdom',
 					clearMocks: true,
-					include: ['src/**/*.svelte.{test,spec}.{js,ts}', 'src/components/**/*.{test,spec}.{js,ts}'],
+					include: [
+						'src/**/*.svelte.{test,spec}.{js,ts}',
+						'src/components/**/*.{test,spec}.{js,ts}'
+					],
 					exclude: ['src/lib/server/**'],
 					setupFiles: ['./vitest-setup-client.js']
 				}
@@ -35,7 +36,7 @@ export default defineConfig({
 					name: 'server',
 					environment: 'node',
 					include: ['src/**/*.{test,spec}.{js,ts}'],
-					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}', 'src/components/**'],
+					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}', 'src/components/**']
 				}
 			}
 		]

@@ -25,12 +25,11 @@
 			selectedFiles = validFiles.map((file) => file.name);
 		}
 	}
-
 </script>
 
 <div class="flex w-full flex-row items-center justify-between">
 	<span>{inputKey}</span>
-    <span class="text-sm font-bold"> {selectedFiles.length}/{maxFiles}</span>
+	<span class="text-sm font-bold"> {selectedFiles.length}/{maxFiles}</span>
 </div>
 
 <div class="form-control w-full">

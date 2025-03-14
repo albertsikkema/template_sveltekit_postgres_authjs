@@ -10,7 +10,7 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint .",
+		"clean": "prettier --write . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run ",
 		"test:e2e": "playwright test",
@@ -60,13 +60,15 @@
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
 		"vite": "^6.0.0",
-		"vitest": "^3.0.0"
+		"vitest": "^3.0.0",
+		"zod": "^3.24.2",
+		"drizzle-orm": "^0.40.0",
+		"drizzle-zod": "^0.7.0"
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "^1.8.0",
 		"@auth/sveltekit": "^1.8.0",
 		"dotenv": "^16.4.7",
-		"drizzle-orm": "^0.40.0",
 		"nodemailer": "^6.10.0",
 		"postgres": "^3.4.5"
 	}

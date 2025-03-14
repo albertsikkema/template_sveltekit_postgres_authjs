@@ -1,34 +1,41 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
-import ErrorMessage from './ErrorMessage.svelte'; // Ensure the correct import path
+import ErrorMessage from './ErrorMessage.svelte'; // Ensure correct path
 
 describe('ErrorMessage Component', () => {
-  
-  it('renders an error message when formMessage.success is false', () => {
-    const formMessage = { success: false, message: 'There was an error' };
-    render(ErrorMessage, { props: { formMessage } });
+	it('renders all error messages when formMessage.success is false', () => {
+		const formMessage = { success: false, message: ['Error 1', 'Error 2'] };
+		render(ErrorMessage, { props: { formMessage } });
 
-    // Expect the alert div to be present
-    const alert = screen.getByRole('alert');
-    expect(alert).toBeInTheDocument();
+		// Expect two alerts to be rendered (one for each message)
+		const alerts = screen.getAllByRole('alert');
+		expect(alerts.length).toBe(2);
 
-    // Expect the message to be displayed
-    expect(screen.getByText('There was an error')).toBeInTheDocument();
-  });
+		// Check if both messages are rendered
+		expect(screen.getByText('Error 1')).toBeInTheDocument();
+		expect(screen.getByText('Error 2')).toBeInTheDocument();
+	});
 
-  it('does not render anything when formMessage is undefined', () => {
-    render(ErrorMessage, { props: { formMessage: undefined } });
+	it('does not render anything when formMessage is undefined', () => {
+		render(ErrorMessage, { props: { formMessage: undefined } });
 
-    // There should be no alert in the document
-    expect(screen.queryByRole('alert')).toBeNull();
-  });
+		// No alerts should be present as formMessage is not defined
+		expect(screen.queryByRole('alert')).toBeNull();
+	});
 
-  it('does not render anything when formMessage.success is true', () => {
-    const formMessage = { success: true, message: 'Success message' };
-    render(ErrorMessage, { props: { formMessage } });
+	it('does not render anything when formMessage.success is true', () => {
+		const formMessage = { success: true, message: ['Success message'] };
+		render(ErrorMessage, { props: { formMessage } });
 
-    // The alert should not be in the DOM since success is true
-    expect(screen.queryByRole('alert')).toBeNull();
-  });
+		// The alert should not exist in the DOM
+		expect(screen.queryByRole('alert')).toBeNull();
+	});
 
+	it('renders nothing when formMessage.success is false but message array is empty', () => {
+		const formMessage = { success: false, message: [] };
+		render(ErrorMessage, { props: { formMessage } });
+
+		// No alerts should be present when the message array is empty
+		expect(screen.queryByRole('alert')).toBeNull();
+	});
 });

@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] validation server side (zod and drizzle) https://orm.drizzle.team/docs/zod
+- [x] validation server side (zod and drizzle) https://orm.drizzle.team/docs/zod
 - [ ] find a way to generate dummmy data to have enough data to test pagination etc.
 - [ ] ordering and pagination for tables (probably best to do serverside and recall data on every change)
 - [x] add more tests
@@ -10,3 +10,5 @@
 - [x] Add custom 500 and 404 pages
 - [x] improve error handling (error boundaries)
 - [ ] changelog
+- [ ] See how stores can be used to access the session data
+- [ ] Improve error feedback for forms by showing the error at the right field instead of at the bottom

@@ -59,14 +59,14 @@
 	}
 
 	function openCreateItemModal() {
-		selectedItem = defaultTicket;
+		selectedItem = { ...defaultTicket };
 		isEditing = false;
 		const element = document.getElementById('additemmodal');
 		element.showModal();
 	}
 
 	function handleCloseCreateItemModal() {
-		selectedItem = defaultTicket;
+		selectedItem = { ...defaultTicket };
 		isEditing = false;
 		const element = document.getElementById('additemmodal');
 		element.close();
@@ -80,7 +80,7 @@
 	}
 
 	function handleCloseEditItemModal() {
-		selectedItem = defaultTicket;
+		selectedItem = { ...defaultTicket };
 		isEditing = false;
 		const element = document.getElementById('updateitemmodal');
 		element.close();
@@ -93,7 +93,7 @@
 	}
 
 	function handleCloseDeleteItemModal() {
-		selectedItem = defaultTicket;
+		selectedItem = { ...defaultTicket };
 		const element = document.getElementById('deleteitemmodal');
 		element.close();
 	}
@@ -215,7 +215,7 @@
 			use:enhance={() => {
 				return async ({ result, update }) => {
 					if (result?.type === 'success') {
-						resultFormMessage = { success: true, message: result.data.message };
+						resultFormMessage = { success: true, message: 'Ticket created successfully!' };
 						toast.success('Ticket created successfully!');
 						handleCloseCreateItemModal();
 						update();
@@ -230,12 +230,7 @@
 				<Input inputKey="Title" maxLength={50} minLength={3} />
 			</div>
 			<div>
-				<TextArea
-					inputKey="Description"
-					placeholder="Add a description..."
-					maxLength={300}
-					minLength={3}
-				/>
+				<TextArea inputKey="Description" placeholder="Add a description..." maxLength={300} />
 			</div>
 
 			<div>

@@ -1,2 +1,2 @@
 import { signIn } from '../../auth';
-export const actions= { default: signIn }
+export const actions = { default: signIn };

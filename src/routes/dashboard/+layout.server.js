@@ -1,6 +1,6 @@
 // +layout.server.js
 export async function load(event) {
-    return {
-      user: event.locals.session.user,
-    };
-  }
+	return {
+		user: event.locals.session.user
+	};
+}

@@ -24,7 +24,7 @@
 	placeholder="Enter {inputKey.toLowerCase()}..."
 	bind:value={inputValue}
 	minlength={minLength}
-	disabled={disabled}
+	{disabled}
 	{maxLength}
 	{...inputType !== 'email' ? { pattern: '[A-Za-z0-9\\- ]*' } : {}}
 />

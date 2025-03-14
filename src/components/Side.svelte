@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import { navigation } from '$lib/navigationMenu';
 	import { signOut } from '@auth/sveltekit/client';
-	console.log('page', $page.data.user);
 
 	let initials = '';
 	let userId = '';
@@ -42,7 +41,7 @@
 </script>
 
 <div
-	class={`bg-base-300 text-base-content fixed top-0 left-0 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0 z-10`}
+	class={`bg-base-300 text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0`}
 >
 	<span>
 		<div class="flex h-16 items-center justify-around gap-2 border-b border-gray-300">
@@ -98,10 +97,7 @@
 			</div>
 			<span class="truncate text-sm font-bold">{userId}</span>
 		</div>
-		<button
-			class="btn btn-secondary w-full "
-			onclick={signOut}
-		>
+		<button class="btn btn-secondary w-full" onclick={signOut}>
 			<ArrowRightOnRectangleIcon class="h-6 w-6" />
 			Sign Out
 		</button>
