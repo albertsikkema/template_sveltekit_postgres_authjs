@@ -1,9 +1,7 @@
 <script lang="js">
 	import Sidebar from '../../components/Side.svelte';
 	import Footer from '../../components/Footer.svelte';
-
 	let { children } = $props();
-
 </script>
 
 <div class="flex  ">

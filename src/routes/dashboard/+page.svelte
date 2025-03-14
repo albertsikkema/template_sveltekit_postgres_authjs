@@ -1,5 +1,8 @@
 <script lang="js">
 
+let { children, user } = $props();
+console.log('user', user);
+
 </script>
 
 

@@ -7,6 +7,27 @@ import { auth_accounts, auth_authenticators, auth_sessions, auth_users, auth_ver
 import { eq } from 'drizzle-orm'
 import { env } from "$env/dynamic/private"
 
+const providers = []
+
+ // Conditionally add GitHub provider if ALLOW_GITHUB_LOGIN is set
+ if (env.ALLOW_GITHUB_LOGIN  === 'true') {
+  providers.push(
+    GitHub
+  );
+}
+
+// Conditionally add Nodemailer provider if EMAIL_SERVER is set
+if (env.ALLOW_EMAIL_LOGIN === 'true') {
+  providers.push(
+    Nodemailer({
+      name: 'Email',
+      server: env.EMAIL_SERVER,
+      from: env.EMAIL_FROM,
+    })
+  );
+}
+
+
 export const { handle, signIn, signOut } = SvelteKitAuth({
   callbacks: {
     async signIn({ user }) {
@@ -59,11 +80,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
     }
 
   ),
-  providers: [GitHub,
-    Nodemailer({
-      server: env.EMAIL_SERVER,
-      from: env.EMAIL_FROM,
-    }),
-
-  ],
+  providers
 })
+

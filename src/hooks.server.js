@@ -9,7 +9,6 @@ import { hashUserData } from '$lib/privacyhelper';
 import crypto from 'crypto';
 import { requireRole } from "$lib/authhelpers";
 
-
 logger.info('Server: ready!');
 
 // Define a proper type for handleError function
@@ -51,7 +50,7 @@ export const firstHandler = async function ({ event, resolve }) {
 // if not logged in, only access to page to login
 // if user only access to pages that are not admin
 // if admin access to all pages
-const openPaths = ['/auth/signin', '/'];
+const openPaths = ['/auth//signin', '/'];
 // Define paths restricted to admin users only
 const adminPaths = ['/admin'];
 
