@@ -15,6 +15,7 @@
 	import Select from '../../../components/form/Select.svelte';
 	import ErrorMessage from '../../../components/form/ErrorMessage.svelte';
 	import Checkbox from '../../../components/form/Checkbox.svelte';
+	import Dialog from '../../../components/Dialog.svelte';
 
 	let { data, form } = $props();
 	let isEditing = $state(false);
@@ -191,17 +192,7 @@
 	</table>
 </div>
 
-<dialog id="additemmodal" class="modal modal-bottom sm:modal-middle">
-	<div class="modal-box w-12/12 max-w-6xl">
-		<form method="dialog">
-			<button class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
-		</form>
-		<h3 class="text-lg font-bold">Add Item</h3>
-		<p class="mt-2">Fill the fields to add a new user</p>
-		{#if form?.error}
-			<div>{form.error}</div>
-		{/if}
-
+<Dialog id="additemmodal" title="Add User" subtitle="Fill the fields to add a new user">
 		<div class="modal-action w-full">
 			<form
 				method="POST"
@@ -210,8 +201,8 @@
 				use:enhance={() => {
 					return async ({ result, update }) => {
 						if (result?.type === 'success') {
-							resultFormMessage = { success: true, message: result.data.message };
-							toast.success('User created successfully!');
+							resultFormMessage = { success: true, message: 'User created successfully!' };
+							toast.success(resultFormMessage.message);
 							handleCloseCreateItemModal();
 							update();
 						} else {
@@ -257,16 +248,9 @@
 				</div>
 			</form>
 		</div>
-	</div>
-</dialog>
+</Dialog>
 
-<dialog id="updateitemmodal" class="modal modal-bottom sm:modal-middle">
-	<div class="modal-box w-12/12 max-w-6xl">
-		<form method="dialog">
-			<button class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
-		</form>
-		<h3 class="text-lg font-bold">Edit User</h3>
-		<p class="mt-2">Edit user details</p>
+<Dialog  id="updateitemmodal" title="Edit User" subtitle="Edit user details">
 		<div class="modal-action w-full">
 			<form
 				method="POST"
@@ -275,10 +259,10 @@
 				use:enhance={() => {
 					return async ({ result, update }) => {
 						if (result?.type === 'success') {
-							resultFormMessage = { success: true, message: result.data.message };
+							resultFormMessage = { success: true, message: 'User updated successfully!'};
 							handleCloseEditItemModal();
 							update();
-							toast.success('Item updated successfully!');
+							toast.success(resultFormMessage.message);
 						} else {
 							// update the form message
 							resultFormMessage = { success: false, message: result.data.message };
@@ -329,15 +313,10 @@
 		<!-- if form errors -->
 		<div class="mt-4">
 			<ErrorMessage formMessage={resultFormMessage} />
-		</div>
-	</div>
-</dialog>
+		</div>	
+</Dialog>
 
-<dialog id="deleteitemmodal" class="modal modal-bottom sm:modal-middle">
-	<div class="modal-box w-12/12 max-w-6xl">
-		<form method="dialog">
-			<button class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
-		</form>
+<Dialog id="deleteitemmodal">
 		<h3 class="text-lg font-bold">
 			Confirm Delete User {#if selectedItem?.name}
 				({selectedItem?.name})
@@ -371,7 +350,7 @@
 							};
 							handleCloseDeleteItemModal(); // Close modal on success
 							update(); // Refresh UI
-							toast.success('Item deleted successfully!');
+							toast.success(resultFormMessage.message);
 						} else {
 							resultFormMessage = {
 								success: false,
@@ -398,15 +377,9 @@
 		<div class="mt-4">
 			<ErrorMessage formMessage={resultFormMessage} />
 		</div>
-	</div>
-</dialog>
+</Dialog>
 
-<dialog id="logoutusermodal" class="modal modal-bottom sm:modal-middle">
-	<div class="modal-box w-12/12 max-w-6xl">
-		<form method="dialog">
-			<button class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
-		</form>
-		<h3 class="text-lg font-bold">Confirm Logout User ({selectedItem?.name})</h3>
+<Dialog id="logoutitemmodal" title="Log Out User">	
 		<p class="py-4">
 			Are you sure you want to log out user
 			<span class="font-bold">
@@ -416,7 +389,7 @@
 			<span class="font-bold">
 				{selectedItem?.email}
 			</span>
-			?
+			from all devices?
 		</p>
 		<div class="modal-action w-full">
 			<form
@@ -430,7 +403,7 @@
 								success: true,
 								message: result?.data?.message ?? 'User logged out successfully!'
 							};
-							toast.success('Item logged out successfully!');
+							toast.success(resultFormMessage.message);
 							handleCloseLogoutItemModal(); // Close modal on success
 							update(); // Refresh UI
 						} else {
@@ -458,5 +431,4 @@
 		<div class="mt-4">
 			<ErrorMessage formMessage={resultFormMessage} />
 		</div>
-	</div>
-</dialog>
+</Dialog>
