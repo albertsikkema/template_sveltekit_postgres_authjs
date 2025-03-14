@@ -49,14 +49,12 @@ export const updateUser = async ({ email, name, role, active }) => {
 		await logoutUser(email); // Force logout user if they are active
 		return updatedUser;
 	} catch (error) {
-		console.log('===> updateUser error', error);
 		throw new Error(error);
 	}
 };
 
 /** Delete a user */
 export const deleteUser = async (email) => {
-	console.log('===> deleteUser', email);
 	try {
 		const [deletedUser] = await db.delete(users).where(eq(users.email, email)).returning(); // Return deleted user
 		await logoutUser(email); // Force logout user if they are active

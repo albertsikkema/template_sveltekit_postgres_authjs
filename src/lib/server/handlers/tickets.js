@@ -25,7 +25,6 @@ export const getTicket = async (id) => {
 
 /** Create a new ticket */
 export const createTicket = async ({ title, description, created_by, images }) => {
-	console.log('===> createTicket', { title, description, created_by, images });
 	try {
 		const [ticket] = await db
 			.insert(tickets)
@@ -47,16 +46,6 @@ export const updateTicket = async ({
 	images
 }) => {
 	try {
-		console.log('===> updateTicket', {
-			id,
-			title,
-			description,
-			created_by,
-			assigned_to,
-			status,
-			images
-		});
-
 		const [updatedTicket] = await db
 			.update(tickets)
 			.set({ id, title, description, created_by, assigned_to, status })
@@ -65,7 +54,6 @@ export const updateTicket = async ({
 
 		return updatedTicket;
 	} catch (error) {
-		console.log('===> updateTicket error', error);
 		throw new Error(error);
 	}
 };
