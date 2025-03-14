@@ -35,14 +35,14 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
       if (!user.email) {
         return false; // Reject login if email is missing
       }
-      // Check if the user exists in the allowed users table and is active
-      const allowedUser = await db
+      // Check if the user exists in the users table and is active
+      const [allowedUser] = await db
         .select()
         .from(users)
         .where(eq(users.email, user.email))
         .limit(1);
 
-      if (allowedUser.length === 0 || !allowedUser[0].active) {
+      if ( !allowedUser || !allowedUser.active) {
         return false; // Reject login if not found or not active
       }
 
