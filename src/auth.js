@@ -68,7 +68,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				user: {
 					...session.user,
 					role: dbUser[0].role,
-					email: dbUser[0].email
+					email: dbUser[0].email,
+					userId: dbUser[0].id
 				}
 			};
 		}

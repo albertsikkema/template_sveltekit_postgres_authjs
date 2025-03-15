@@ -20,7 +20,7 @@
 	import Dialog from '../../../components/Dialog.svelte';
 
 	let { data, form } = $props();
-	let userEmail = data.userEmail;
+	let userId = data.userId;
 	let userList = data.userList;
 	let isEditing = $state(false);
 
@@ -236,7 +236,7 @@
 			<div>
 				<FileInput />
 			</div>
-			<input type="hidden" name="created_by" value={userEmail} />
+			<input type="hidden" name="created_by" value={userId} />
 			<div class="flex w-full flex-row items-center justify-end gap-2">
 				<button type="submit" class="btn btn-primary w-24">Save</button>
 				<button
@@ -291,7 +291,6 @@
 			<div class="mb-4">
 				<FileInput images={selectedItem.images} />
 			</div>
-			<input type="hidden" name="created_by" value={userEmail} />
 
 			<div class="mb-4">
 				<Select
@@ -303,7 +302,7 @@
 			<div class="mb-4">
 				<Select inputKey="Assigned_to" inputValue={selectedItem.assigned_to} options={userList} />
 			</div>
-			<input type="hidden" name="created_by" value={userEmail} />
+			<input type="hidden" name="created_by" value={selectedItem.created_by} />
 
 			<div class="flex w-full flex-row items-center justify-end gap-2">
 				<button type="submit" class="btn btn-primary w-24">Save</button>

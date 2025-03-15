@@ -12,6 +12,7 @@ const userInsertSchema = createInsertSchema(users, {
 });
 
 const userUpdateSchema = createUpdateSchema(users, {
+	id: z.coerce.number().min(1),
 	email: z.string().email().max(50),
 	name: z.string().max(30)
 });
@@ -50,12 +51,13 @@ export const actions = {
 
 	updateuser: async (event) => {
 		const data = await event.request.formData();
-		const { name, email, role, active } = Object.fromEntries(data);
+		const { id, name, email, role, active } = Object.fromEntries(data);
 		const isActive = active === 'true' || active === 'on';
 		try {
 			const parsedUser = userUpdateSchema.parse({
-				email: 'test',
-				name: 1231,
+				id,
+				email,
+				name,
 				role,
 				active: isActive
 			});

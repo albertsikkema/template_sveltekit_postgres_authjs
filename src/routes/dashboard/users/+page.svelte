@@ -291,6 +291,7 @@
 			</div>
 			<Checkbox inputKey="Active" inputValue={selectedItem.active} />
 			<input type="hidden" name="email" value={selectedItem.email} />
+			<input type="hidden" name="id" value={selectedItem.id} />
 			<div
 				class="flex w-full flex-row items-center justify-end gap-2
 				"

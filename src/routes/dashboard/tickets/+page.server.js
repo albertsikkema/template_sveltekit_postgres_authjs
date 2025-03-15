@@ -16,30 +16,28 @@ import { ZodError, z } from 'zod';
 const ticketInsertSchema = createInsertSchema(tickets, {
 	title: z.string().min(3).max(50),
 	description: z.string().max(300),
-	created_by: z.string().email().max(50)
+	created_by: z.coerce.number().min(1)
 });
 
 const ticketUpdateSchema = createUpdateSchema(tickets, {
+	id: z.coerce.number().min(1),
 	title: z.string().min(3).max(50),
 	description: z.string().max(300),
-	created_by: z.string().email().max(50),
-	assigned_to: z.string().email().max(50)
+	created_by: z.coerce.number().min(1),
+	assigned_to: z.coerce.number().min(1).nullable()
 });
 
 export async function load(event) {
-	console.log('===> load event', event.locals);
 	try {
 		const tickets = await getTickets();
 		const users = await getUsers();
 		// create a object of users for the dropdown {"email":"name", "email":"name"}
 		const userList = users.reduce((acc, user) => {
-			acc[user.email] = user.name || user.email;
+			acc[user.id] = user.name || user.email;
 			return acc;
 		}, {});
-
-		console.log('===> load tickets', userList);
-		const userEmail = event.locals.session.user.email;
-		return { tickets, userEmail, userList };
+		const userId = event.locals.session.user.userId;
+		return { tickets, userId, userList };
 	} catch (error) {
 		errorLogger(error, event, 'error getting tickets');
 		return { error: 'Error getting tickets' };

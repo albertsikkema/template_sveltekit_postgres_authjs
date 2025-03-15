@@ -6,7 +6,8 @@ import {
 	text,
 	primaryKey,
 	integer,
-	pgEnum
+	pgEnum,
+	serial
 } from 'drizzle-orm/pg-core';
 import crypto from 'crypto'; // Import the crypto module for UUID generation
 
@@ -16,7 +17,8 @@ export const statusEnum = pgEnum('status', ['open', 'closed']);
 
 // Allowed users table
 export const users = pgTable('users', {
-	email: text('email').primaryKey(), // Primary key
+	id: serial().primaryKey(), // Auto-incrementing primary key
+	email: text('email').unique(), // Primary key
 	name: text('name'),
 	role: roleEnum('role').default('user'), // Defaults to 'user'
 	active: boolean('active').default(true), // Defaults to being active
@@ -29,21 +31,18 @@ export const users = pgTable('users', {
 		.$onUpdate(() => sql`(now() AT TIME ZONE 'utc'::text)`)
 });
 
-//   Tickets table
+// Tickets table
 export const tickets = pgTable('tickets', {
-	id: text('id')
-		.primaryKey()
-		.$defaultFn(() => crypto.randomUUID()), // Generates a random UUID as the default ID
-	title: text('title').notNull(), // Make sure to specify if the title is required
+	id: serial(), // Auto-incrementing primary key
+	title: text('title').notNull(),
 	description: text('description'),
-	created_by: text('created_by')
-		.references(() => users.email)
+	created_by: integer('created_by')
+		.references(() => users.id)
 		.notNull(),
-	assigned_to: text('assigned_to').references(() => users.email),
+	assigned_to: integer('assigned_to').references(() => users.id),
 	status: statusEnum('status').notNull().default('open'),
 	images: text('images')
 		.array()
-		.notNull()
 		.default(sql`ARRAY[]::text[]`),
 	created_at: timestamp({ withTimezone: true, mode: 'string' })
 		.default(sql`(now() AT TIME ZONE 'utc'::text)`)
