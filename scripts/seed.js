@@ -18,7 +18,7 @@ async function seedDatabase() {
 	try {
 		const userIds = [];
 		const knownEmail = 'mail@albertsikkema.com';
-		const knownUserExists = true;
+		let knownUserExists = true;
 		const numberOfTickets = 2000;
 		const numberOfUsers = 10;
 
