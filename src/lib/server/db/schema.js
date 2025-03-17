@@ -33,7 +33,7 @@ export const users = pgTable('users', {
 
 // Tickets table
 export const tickets = pgTable('tickets', {
-	id: serial(), // Auto-incrementing primary key
+	id: serial().primaryKey(), // Auto-incrementing primary key
 	title: text('title').notNull(),
 	description: text('description'),
 	created_by: integer('created_by')

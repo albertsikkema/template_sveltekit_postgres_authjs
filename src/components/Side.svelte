@@ -41,7 +41,7 @@
 </script>
 
 <div
-	class={`bg-base-300 text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0`}
+	class={`text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0`}
 >
 	<span>
 		<div class="flex h-16 items-center justify-around gap-2 border-b border-gray-300">

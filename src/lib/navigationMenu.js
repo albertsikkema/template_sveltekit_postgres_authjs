@@ -18,7 +18,7 @@ export const navigation = [
 	},
 	{
 		name: 'New Ticket',
-		href: '/dashboard/newticket',
+		href: '/dashboard/tickets/new',
 		icon: CameraPhotoOutline,
 		permission: 'canCrudTickets'
 	},
