@@ -164,15 +164,19 @@
 	</div>
 	{#if slug !== 'new'}
 		<div class="divider"></div>
-		<div class="tooltip w-full py-4 md:w-40" data-tip="delete ticket">
-			<button
-				onclick={() => {
-					handleOpenDeleteItemModal(ticket);
-				}}
-				class="btn btn-warning w-full p-1"
-			>
-				<TrashIcon class="h-5 w-5" /> Delete Ticket
-			</button>
+		<h2 class="text-xl dark:text-white">Danger Zone</h2>
+		<div class="text-gray-600">These actions cannot be undone.</div>
+		<div class="mt-4 flex flex-col gap-4 md:flex-row">
+			<div class="tooltip w-full py-4 md:w-40" data-tip="delete ticket">
+				<button
+					onclick={() => {
+						handleOpenDeleteItemModal(ticket);
+					}}
+					class="btn btn-warning btn-outline w-full p-1"
+				>
+					<ExclamationCircleIcon class="h-5 w-5" /> Delete ticket
+				</button>
+			</div>
 		</div>
 	{/if}
 </div>

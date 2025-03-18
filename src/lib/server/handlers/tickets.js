@@ -12,8 +12,8 @@ function maxPage(total, limit) {
 }
 
 /** Get all tickets */
-export const getTickets = async ({ page, search, orderby, order }) => {
-	console.log('16 ===> getTickets', page, search, orderby, order);
+export const getTickets = async (params = {}) => {
+	let { page, search, orderby, order } = params;
 	const limit = 10;
 	if (!page | !Number(page) | (page < 1)) {
 		page = 1;
@@ -74,10 +74,6 @@ export const getTickets = async ({ page, search, orderby, order }) => {
 		const orderDirection = order.toLowerCase() === 'asc' ? asc : desc;
 		const orderColumn = tickets[orderby];
 
-		console.log('===> Sorting by', orderColumn, order);
-
-		console.log('===> getTickets', total[0]?.count, maxpage, offset, limit, orderby, order);
-
 		// 2️⃣ Query for paginated results (with limit & offset)
 		const resultTickets = await baseQuery
 			.orderBy(orderDirection(orderColumn)) // ✅ Correctly apply sorting
@@ -91,7 +87,6 @@ export const getTickets = async ({ page, search, orderby, order }) => {
 			maxpage: maxPage(total[0]?.count, limit)
 		};
 	} catch (error) {
-		console.log('===> getTickets error', error);
 		throw new Error(`query error: ${error.message}`);
 	}
 };
@@ -144,7 +139,6 @@ export const updateTicket = async ({
 
 /** Delete a ticket */
 export const deleteTicket = async (id) => {
-	console.log('===> deleteTicket', id);
 	try {
 		const [deletedTicket] = await db.delete(tickets).where(eq(tickets.id, id)).returning(); // Return deleted user
 		return deletedTicket;
@@ -152,3 +146,15 @@ export const deleteTicket = async (id) => {
 		throw new Error(error);
 	}
 };
+
+
+export const getOpenTicketsCount = async () => {
+	try {
+		const openTickets = await db.query.tickets.findMany({
+			where: eq(tickets.status, 'open')
+		});
+		return openTickets.length;
+	} catch (error) {
+		throw new Error(`query error: ${error.message}`);
+	}
+}

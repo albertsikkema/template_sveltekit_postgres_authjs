@@ -1,9 +1,5 @@
 <script lang="js">
-	import {
-		UserPlusIcon,
-		MagnifyingGlassIcon,
-		XMarkIcon
-	} from 'heroicons-svelte/24/outline';
+	import { UserPlusIcon, MagnifyingGlassIcon, XMarkIcon } from 'heroicons-svelte/24/outline';
 	import { goto } from '$app/navigation';
 	import { debounce } from 'lodash-es';
 	import { browser } from '$app/environment';
@@ -229,7 +225,7 @@
 			</tbody>
 		</table>
 		<span class="text-sm text-gray-500 dark:text-gray-400">
-			Showing {data.users.length} of {data.total} users
+			Showing {(data.currentpage * 10) - 9} - {data.currentpage * 10 < data.total ? data.currentpage * 10 : data.total } of {data.total} users
 		</span>
 	{:else}
 		<div class="mt-16 flex w-full items-center justify-center">

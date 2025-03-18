@@ -41,6 +41,17 @@
 		element.close();
 		goto('/dashboard/users');
 	}
+
+	function handleOpenLogoutItemModal(item) {
+		user = item;
+		const element = document.getElementById('logoutitemmodal');
+		element.showModal();
+	}
+
+	function handleCloseLogoutItemModal() {
+		const element = document.getElementById('logoutitemmodal');
+		element.close();
+	}
 </script>
 
 <div class="mb-16 flex w-full flex-col items-center justify-between p-4 md:mb-0 md:p-8">
@@ -120,12 +131,7 @@
 						};
 					}}
 				>
-					<Input
-						inputKey="Email"
-						maxLength={50}
-						inputValue={user.email}
-						inputType="email"
-					/>
+					<Input inputKey="Email" maxLength={50} inputValue={user.email} inputType="email" />
 					<Input
 						inputKey="Name"
 						maxLength={30}
@@ -163,15 +169,19 @@
 	</div>
 	{#if slug !== 'new'}
 		<div class="divider"></div>
-		<div class="tooltip w-full py-4 md:w-40" data-tip="delete user">
-			<button
-				onclick={() => {
-					handleOpenDeleteItemModal(user);
-				}}
-				class="btn btn-warning w-full p-1"
-			>
-				<TrashIcon class="h-5 w-5" /> Delete user
-			</button>
+		<h2 class="text-xl dark:text-white">Danger Zone</h2>
+		<div class="text-gray-600">These actions cannot be undone.</div>
+		<div class="mt-4 flex flex-col gap-4 md:flex-row">
+			<div class="tooltip w-full py-4 md:w-40" data-tip="log user out">
+				<button
+					onclick={() => {
+						handleOpenLogoutItemModal(user);
+					}}
+					class="btn btn-warning btn-outline w-full p-1"
+				>
+					<ExclamationCircleIcon class="h-5 w-5" /> Logout user
+				</button>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -201,9 +211,9 @@
 							success: true,
 							message: result?.data?.message ?? 'Item deleted successfully!'
 						};
-						handleCloseDeleteItemModal(); // Close modal on success
 						update(); // Refresh UI
 						toast.success('User deleted successfully!');
+						goto('/dashboard/users');
 					} else {
 						resultFormMessage = {
 							success: false,
@@ -216,7 +226,6 @@
 			<input type="hidden" name="id" value={user.id} />
 			<div class="flex w-full flex-row items-center gap-2">
 				<button type="submit" class="btn btn-primary w-24">Delete</button>
-
 				<button
 					type="reset"
 					class="btn btn-outline w-24"

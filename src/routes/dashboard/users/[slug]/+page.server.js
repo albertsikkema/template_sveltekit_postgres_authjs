@@ -32,13 +32,11 @@ export async function load(event) {
 			};
 		} else {
 			const user = await getUser(slug);
-			console.log('===> load user', user);
 			if (!user) {
 				return { error: 'User not found' };
 			}
 			return { user, slug };
 		}
-
 	} catch (error) {
 		errorLogger(error.message, event, 'error getting users');
 		return { error: 'Error getting users' };
@@ -49,7 +47,6 @@ export const actions = {
 	createuser: async (event) => {
 		const data = await event.request.formData();
 		const { name, email, role, active } = Object.fromEntries(data);
-		console.log('===> createuser', name, email, role, active);
 		const isActive = active === 'true' || active === 'on';
 		try {
 			const parsedUser = userInsertSchema.parse({ email, name, role, active: isActive });
@@ -71,7 +68,6 @@ export const actions = {
 	updateuser: async (event) => {
 		const data = await event.request.formData();
 		const { id, name, email, role, active } = Object.fromEntries(data);
-		console.log('===> updateuser', id, name, email, role, active);
 		const isActive = active === 'true' || active === 'on';
 		try {
 			const parsedUser = userUpdateSchema.parse({
@@ -103,7 +99,7 @@ export const actions = {
 			await deleteUser(id);
 			return { success: true, message: 'User deleted' };
 		} catch (error) {
-			errorLogger(error, event, 'error deleting user');
+			errorLogger(error.message, event, 'error deleting user');
 			return fail(400, { id, error: true, message: error.message });
 		}
 	},
@@ -115,7 +111,7 @@ export const actions = {
 			await logoutUser(email);
 			return { success: true, message: 'User is logged out' };
 		} catch (error) {
-			errorLogger(error, event, 'error logging out user ${email}');
+			errorLogger(error.message, event, 'error logging out user ${email}');
 			return fail(400, { email, error: true, message: error.message });
 		}
 	}

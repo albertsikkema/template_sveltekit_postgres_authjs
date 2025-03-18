@@ -246,15 +246,19 @@
 						tabindex="0"
 						role="button"
 						aria-label="Sort by title"
-						>Age
-						{#if orderby === 'created_at'}
+						>
+						<div class="flex items-center gap-1">
+
+							Age
+							{#if orderby === 'created_at'}
 							{#if order === 'asc'}
-								<ChevronUpIcon class="h-4 w-4" />
+							<ChevronUpIcon class="h-4 w-4" />
 							{:else}
-								<ChevronDownIcon class="h-4 w-4" />
+							<ChevronDownIcon class="h-4 w-4" />
 							{/if}
-						{/if}</th
-					>
+							{/if}
+						</div>
+						</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -290,13 +294,13 @@
 
 						<td class="hidden w-1/8 overflow-hidden md:table-cell">{item.created_by_email}</td>
 						<td class="hidden w-1/4 md:table-cell">{item.assigned_to_email}</td>
-						<td class="w-1/4 min-w-20">{determineage(item.created_at)} day(s)</td>
+						<td class="w-1/4 min-w-24">{determineage(item.created_at)} day(s)</td>
 					</tr>
 				{/each}
 			</tbody>
 		</table>
 		<span class="text-sm text-gray-500 dark:text-gray-400">
-			Showing {data.tickets.length} of {data.total} tickets
+			Showing {(data.currentpage * 10) - 9} - {data.currentpage * 10 < data.total ? data.currentpage * 10 : data.total } of {data.total} tickets
 		</span>
 	{:else}
 		<div class="mt-16 flex w-full items-center justify-center">

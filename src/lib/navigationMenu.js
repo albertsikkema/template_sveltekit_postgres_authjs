@@ -13,7 +13,6 @@ export const navigation = [
 		name: 'Dashboard',
 		href: '/dashboard',
 		icon: ChartOutline,
-		count: '5',
 		permission: 'canSeeDashboard'
 	},
 	{
@@ -26,7 +25,7 @@ export const navigation = [
 		name: 'Tickets',
 		href: '/dashboard/tickets',
 		icon: FolderOutline,
-		count: '12',
+		count: 'opentickets',
 		permission: 'canCrudTickets'
 	},
 	{ name: 'Users', href: '/dashboard/users', icon: UsersOutline, permission: 'canCrudUsers' }

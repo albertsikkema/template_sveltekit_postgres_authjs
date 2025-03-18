@@ -9,14 +9,13 @@ import { ZodError, z } from 'zod';
 
 export async function load(event) {
 	let page = event.url.searchParams.get('page');
+
 	let search = event.url.searchParams.get('search');
 	let orderby = event.url.searchParams.get('orderby');
 	let order = event.url.searchParams.get('order');
 	if (!page | !Number(page) | (page < 1)) {
 		page = 1;
 	}
-
-	console.log('===> load', page, search, orderby, order);
 
 	try {
 		const { tickets, total, maxpage, currentpage } = await getTickets({
@@ -27,7 +26,7 @@ export async function load(event) {
 		});
 		return { tickets, total, page, maxpage, currentpage };
 	} catch (error) {
-		errorLogger(error, event, 'error getting tickets');
+		errorLogger(error.message, event, 'error getting tickets');
 		return { error: 'Error getting tickets' };
 	}
 }
@@ -40,8 +39,7 @@ export const actions = {
 			const { tickets, total, maxpage, currentpage } = await getTickets({ search, page });
 			return { tickets, total, page, maxpage, currentpage };
 		} catch (error) {
-			console.log('error searching tickets', error);
-			errorLogger(error, event, 'error searching tickets');
+			errorLogger(error.message, event, 'error searching tickets');
 			return { error: 'Error searching tickets' };
 		}
 	}

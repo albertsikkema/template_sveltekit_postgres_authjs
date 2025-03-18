@@ -4,12 +4,12 @@
 	import { navigation } from '$lib/navigationMenu';
 	import { signOut } from '@auth/sveltekit/client';
 
+
 	let initials = '';
 	let userId = '';
 
 	// if user has a name, get the initials
 	if ($page.data.user?.name) {
-		console.log('user', $page.data.user.name);
 		userId = $page.data.user.name;
 		initials = $page.data.user.name
 			.split(' ')
@@ -71,12 +71,12 @@
 									)}
 								/>
 								{nav.name}
-								{#if nav.count}
+								{#if nav.count === 'opentickets' && $page.data.opentickets > 0}
 									<span
 										aria-hidden="true"
 										class="ml-auto w-9 min-w-max rounded-full bg-white px-2.5 py-0.5 text-center text-xs/5 font-medium whitespace-nowrap text-gray-600 ring-1 ring-gray-200 ring-inset"
 									>
-										{nav.count}
+										{$page.data.opentickets}
 									</span>
 								{/if}
 							</a>

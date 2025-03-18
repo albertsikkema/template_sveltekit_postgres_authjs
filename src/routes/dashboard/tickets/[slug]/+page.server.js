@@ -7,13 +7,11 @@ import {
 	getTicket
 } from '$lib/server/handlers/tickets';
 import { getUsers } from '$lib/server/handlers/users';
-import { logoutUser } from '$lib/authhelpers.js';
 import { fail } from '@sveltejs/kit';
 import { tickets } from '$lib/server/db/schema.js';
 import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { ZodError, z } from 'zod';
-import { actions } from '../+page.server.js';
-import { goto } from '$app/navigation';
+
 
 const ticketInsertSchema = createInsertSchema(tickets, {
 	title: z.string().min(3).max(50),
@@ -31,8 +29,8 @@ const ticketUpdateSchema = createUpdateSchema(tickets, {
 
 export const load = async (event) => {
 	const slug = event.params.slug;
-	const users = await getUsers();
-	const userList = users.reduce((acc, user) => {
+	const result = await getUsers();
+	const userList = result.users.reduce((acc, user) => {
 		acc[user.id] = user.email;
 		return acc;
 	}, {});
@@ -55,7 +53,6 @@ export const load = async (event) => {
 			return { ticket, userList, slug };
 		}
 	} catch (error) {
-		console.log('===> load', error);
 		errorLogger(error.message, event, 'error getting ticket');
 		return { error: 'Error getting ticket' };
 	}
