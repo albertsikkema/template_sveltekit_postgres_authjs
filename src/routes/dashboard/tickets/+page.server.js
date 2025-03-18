@@ -6,7 +6,6 @@ import { fail } from '@sveltejs/kit';
 import { tickets } from '$lib/server/db/schema.js';
 import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { ZodError, z } from 'zod';
-import { actions } from '../tickets/+page.server.js';
 
 export async function load(event) {
 	let page = event.url.searchParams.get('page');

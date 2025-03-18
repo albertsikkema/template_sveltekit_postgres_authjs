@@ -23,16 +23,9 @@
 	import { goto } from '$app/navigation';
 	import { debounce } from 'lodash-es';
 	import { browser } from '$app/environment';
-
+	import Pagination from '../../../components/Pagination.svelte';
+	import { determineage } from '$lib/helpers/functions';
 	let { data, form } = $props();
-	console.log('total tickets', data.total);
-	console.log('page', data.page);
-	console.log('next page', data.next);
-	console.log('prev page', data.prev);
-	console.log('current page', data.currentpage);
-	console.log('orderby', data.orderby);
-	console.log('order', data.order);
-	console.log('search', data.search);
 
 	let searchTerm = $state('');
 	let orderby = $state('created_at');
@@ -54,16 +47,7 @@
 		updateSearch();
 	}
 
-	function determineage(date) {
-		const today = new Date();
-		const created = new Date(date);
-		const diffTime = Math.abs(today - created);
-		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-		return diffDays;
-	}
-
 	function navigateToPage(dest) {
-		console.log('navigate to page', dest);
 		const params = new URLSearchParams(window.location.search);
 
 		if (searchTerm) {
@@ -106,7 +90,6 @@
 	}, 500);
 
 	const setOrder = (field) => {
-		console.log('set order', field);
 		if (orderby === field) {
 			order = order === 'asc' ? 'desc' : 'asc';
 		} else {
@@ -152,55 +135,19 @@
 		>
 	</div>
 	{#if data.currentpage}
-		<div class=" flex w-full flex-row items-center justify-center">
-			<div class="join">
-				{#if data.currentpage > 1}
-					<button
-						onclick={() => {
-							navigateToPage(Number(data.currentpage) - 1);
-						}}
-						class="join-item btn">«</button
-					>
-				{/if}
-				<!-- {#if data.currentpage > 1}
-        <button 
-        onclick={
-            () => {
-                navigateToPage(Number(data.currentpage) - 1);
-            }
-        }
-        class="join-item btn">{Number(data.currentpage) - 1}</button>
-        {/if} -->
-				<button
-					onclick={() => {
-						navigateToPage(Number(data.currentpage));
-					}}
-					class="join-item btn">{Number(data.currentpage)}/{data.maxpage}</button
-				>
-				<!-- {#if data.currentpage < data.maxpage}
-        <button 
-        onclick={
-            () => {
-                navigateToPage(Number(data.currentpage) + 1);
-            }
-        }
-        class="join-item btn">{Number(data.currentpage) + 1}</button>
-        {/if} -->
-				{#if data.currentpage < data.maxpage}
-					<button
-						onclick={() => {
-							navigateToPage(Number(data.currentpage) + 1);
-						}}
-						class="join-item btn">»</button
-					>
-				{/if}
-			</div>
-		</div>
+		<Pagination {navigateToPage} currentPage={data.currentpage} maxPage={data.maxpage} />
 
-		<table class="table">
+		<table class="table w-full">
 			<thead>
 				<tr>
-					<th onclick={() => setOrder('title')} class="flex w-24 cursor-pointer items-center gap-2">
+					<th
+						onclick={() => setOrder('title')}
+						onkeydown={(e) => e.key === 'Enter' && setOrder('title')}
+						class="w-1/4 cursor-pointer"
+						tabindex="0"
+						role="button"
+						aria-label="Sort by title"
+					>
 						<div class="flex items-center gap-1">
 							Title
 							{#if orderby === 'title'}
@@ -213,7 +160,14 @@
 						</div>
 					</th>
 
-					<th onclick={() => setOrder('description')} class="hidden cursor-pointer md:table-cell">
+					<th
+						onclick={() => setOrder('description')}
+						onkeydown={(e) => e.key === 'Enter' && setOrder('description')}
+						class="hidden w-1/4 cursor-pointer md:table-cell"
+						tabindex="0"
+						role="button"
+						aria-label="Sort by title"
+					>
 						<div class="flex items-center gap-1">
 							Description
 							{#if orderby === 'description'}
@@ -226,7 +180,14 @@
 						</div>
 					</th>
 
-					<th onclick={() => setOrder('status')} class="cursor-pointer">
+					<th
+						onclick={() => setOrder('status')}
+						onkeydown={(e) => e.key === 'Enter' && setOrder('status')}
+						class="w-1/4 cursor-pointer"
+						tabindex="0"
+						role="button"
+						aria-label="Sort by title"
+					>
 						<div class="flex items-center gap-1">
 							Status
 							{#if orderby === 'status'}
@@ -238,29 +199,108 @@
 							{/if}
 						</div>
 					</th>
-					<th onclick={() => setOrder('created_by')} class="hidden md:table-cell">Created_By</th>
-					<th onclick={() => setOrder('assigned_to')} class="hidden md:table-cell">Assigned_To</th>
-					<th onclick={() => setOrder('created_at')}>Age</th>
+
+					<th
+						onclick={() => setOrder('created_by')}
+						onkeydown={(e) => e.key === 'Enter' && setOrder('created_by')}
+						class="hidden w-1/4 md:table-cell"
+						tabindex="0"
+						role="button"
+						aria-label="Sort by title"
+					>
+						<div class="flex items-center gap-1">
+							Created_By
+							{#if orderby === 'created_by'}
+								{#if order === 'asc'}
+									<ChevronUpIcon class="h-4 w-4" />
+								{:else}
+									<ChevronDownIcon class="h-4 w-4" />
+								{/if}
+							{/if}
+						</div>
+					</th>
+
+					<th
+						onclick={() => setOrder('assigned_to')}
+						onkeydown={(e) => e.key === 'Enter' && setOrder('assigned_to')}
+						class="hidden w-1/4 md:table-cell"
+						tabindex="0"
+						role="button"
+						aria-label="Sort by title"
+						><div class="flex items-center gap-1">
+							Assigned_To
+							{#if orderby === 'assigned_to'}
+								{#if order === 'asc'}
+									<ChevronUpIcon class="h-4 w-4" />
+								{:else}
+									<ChevronDownIcon class="h-4 w-4" />
+								{/if}
+							{/if}
+						</div>
+					</th>
+
+					<th
+						onclick={() => setOrder('created_at')}
+						onkeydown={(e) => e.key === 'Enter' && setOrder('created_at')}
+						class="w-1/4"
+						tabindex="0"
+						role="button"
+						aria-label="Sort by title"
+						>Age
+						{#if orderby === 'created_at'}
+							{#if order === 'asc'}
+								<ChevronUpIcon class="h-4 w-4" />
+							{:else}
+								<ChevronDownIcon class="h-4 w-4" />
+							{/if}
+						{/if}</th
+					>
 				</tr>
 			</thead>
 			<tbody>
 				{#each data.tickets as item}
-					<tr class="hover:bg-base-300 h-full max-h-20" onclick={() => handleOpenItem(item.id)}>
-						<td class="max-w-1/12">{item.title}</td>
-						<td class="hidden md:table-cell">{item.description}</td>
-						<td>
+					<tr
+						class="hover:bg-base-300"
+						onclick={() => handleOpenItem(item.id)}
+						tabindex="0"
+						aria-label={`Open ticket ${item.title}`}
+						onkeydown={(e) => e.key === 'Enter' && handleOpenItem(item.id)}
+					>
+						<td class="max-h-12 w-1/4 overflow-hidden text-ellipsis whitespace-normal">
+							<div class="line-clamp-2">
+								{item.title}
+							</div>
+						</td>
+
+						<td
+							class="hidden max-h-12 w-1/4 overflow-hidden text-ellipsis whitespace-normal md:table-cell"
+						>
+							<div class="line-clamp-2">
+								{item.description}
+							</div>
+						</td>
+
+						<td class="w-1/4">
 							<span
 								class={`badge badge-outline ${item.status === 'closed' ? 'badge-success' : 'badge-error'} w-16`}
 							>
 								{item.status === 'closed' ? 'Closed' : 'Open'}
 							</span>
 						</td>
-						<td class="hidden md:table-cell">{item.created_by_email}</td>
-						<td class="hidden md:table-cell">{item.assigned_to_email}</td>
-						<td>{determineage(item.created_at)} day(s)</td>
+
+						<td class="hidden w-1/8 overflow-hidden md:table-cell">{item.created_by_email}</td>
+						<td class="hidden w-1/4 md:table-cell">{item.assigned_to_email}</td>
+						<td class="w-1/4 min-w-20">{determineage(item.created_at)} day(s)</td>
 					</tr>
 				{/each}
 			</tbody>
 		</table>
+		<span class="text-sm text-gray-500 dark:text-gray-400">
+			Showing {data.tickets.length} of {data.total} tickets
+		</span>
+	{:else}
+		<div class="mt-16 flex w-full items-center justify-center">
+			<p class="text-lg text-gray-500 dark:text-gray-400">No tickets found</p>
+		</div>
 	{/if}
 </div>

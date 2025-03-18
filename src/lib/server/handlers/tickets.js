@@ -4,6 +4,7 @@ import { ValidationError } from '$lib/errorclasses';
 import { eq, count, sql, like, or, asc, desc } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 import { nan } from 'zod';
+import { errorLogger } from '$lib/logging/errorLogger.js';
 
 function maxPage(total, limit) {
 	const maxPage = Math.ceil(total / limit); // Zero-based pagination
@@ -58,7 +59,10 @@ export const getTickets = async ({ page, search, orderby, order }) => {
 			page = maxpage;
 		}
 
-		const offset = (page - 1) * limit;
+		let offset = (page - 1) * limit;
+		if (offset < 0) {
+			offset = 0;
+		}
 		if (!orderby) {
 			orderby = 'created_at';
 		}

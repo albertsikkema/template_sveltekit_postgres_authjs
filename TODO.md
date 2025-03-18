@@ -16,3 +16,4 @@
 - [ ] Set up local.test001.nl to link to localhost:5173 - iets met certificates
 - [ ] set up e2e testing for ui
 - [ ] is using id in event.locals session the best strategy?
+- [ ] make search functions case insensitive

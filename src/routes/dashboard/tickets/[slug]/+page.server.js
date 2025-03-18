@@ -56,7 +56,7 @@ export const load = async (event) => {
 		}
 	} catch (error) {
 		console.log('===> load', error);
-		errorLogger(error, event, 'error getting ticket');
+		errorLogger(error.message, event, 'error getting ticket');
 		return { error: 'Error getting ticket' };
 	}
 };
