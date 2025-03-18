@@ -17,7 +17,9 @@
 		"db:start": "docker compose up",
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+		"generate": "drizzle-kit generate",
+		"migrate": "NODE_ENV=development vite-node scripts/migrate.js"
 	},
 	"devDependencies": {
 		"@axiomhq/pino": "^1.3.1",
