@@ -12,7 +12,6 @@ import { tickets } from '$lib/server/db/schema.js';
 import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { ZodError, z } from 'zod';
 
-
 const ticketInsertSchema = createInsertSchema(tickets, {
 	title: z.string().min(3).max(50),
 	description: z.string().max(300),

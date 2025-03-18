@@ -4,7 +4,6 @@
 	import { navigation } from '$lib/navigationMenu';
 	import { signOut } from '@auth/sveltekit/client';
 
-
 	let initials = '';
 	let userId = '';
 

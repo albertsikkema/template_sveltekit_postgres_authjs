@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index'; // Drizzle instance
 import { tickets, users } from '$lib/server/db/schema';
 import { ValidationError } from '$lib/errorclasses';
-import { eq, count, sql, like, or, asc, desc } from 'drizzle-orm';
+import { eq, count, sql, like, or, asc, desc, ilike } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 import { nan } from 'zod';
 import { errorLogger } from '$lib/logging/errorLogger.js';
@@ -41,7 +41,7 @@ export const getTickets = async (params = {}) => {
 		// Apply search filter if search is provided
 		if (search) {
 			baseQuery = baseQuery.where(
-				or(like(tickets.title, `%${search}%`), like(tickets.description, `%${search}%`))
+				or(ilike(tickets.title, `%${search}%`), ilike(tickets.description, `%${search}%`))
 			);
 		}
 
@@ -50,7 +50,7 @@ export const getTickets = async (params = {}) => {
 		const totalQuery = db.select({ count: count() }).from(tickets);
 		if (search) {
 			totalQuery.where(
-				or(like(tickets.title, `%${search}%`), like(tickets.description, `%${search}%`))
+				or(ilike(tickets.title, `%${search}%`), ilike(tickets.description, `%${search}%`))
 			); // Rapply search filter
 		}
 		const total = await totalQuery;
@@ -147,7 +147,6 @@ export const deleteTicket = async (id) => {
 	}
 };
 
-
 export const getOpenTicketsCount = async () => {
 	try {
 		const openTickets = await db.query.tickets.findMany({
@@ -157,4 +156,4 @@ export const getOpenTicketsCount = async () => {
 	} catch (error) {
 		throw new Error(`query error: ${error.message}`);
 	}
-}
+};

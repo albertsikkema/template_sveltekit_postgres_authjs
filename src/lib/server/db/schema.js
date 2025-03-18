@@ -7,7 +7,8 @@ import {
 	primaryKey,
 	integer,
 	pgEnum,
-	serial
+	serial,
+	uniqueIndex
 } from 'drizzle-orm/pg-core';
 import crypto from 'crypto'; // Import the crypto module for UUID generation
 
@@ -16,20 +17,32 @@ export const roleEnum = pgEnum('role', ['admin', 'user']);
 export const statusEnum = pgEnum('status', ['open', 'closed']);
 
 // Allowed users table
-export const users = pgTable('users', {
-	id: serial().primaryKey(), // Auto-incrementing primary key
-	email: text('email').unique(), // Primary key
-	name: text('name'),
-	role: roleEnum('role').default('user'), // Defaults to 'user'
-	active: boolean('active').default(true), // Defaults to being active
-	created_at: timestamp({ withTimezone: true, mode: 'string' })
-		.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-		.notNull(),
-	updated_at: timestamp({ withTimezone: true, mode: 'string' })
-		.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-		.notNull()
-		.$onUpdate(() => sql`(now() AT TIME ZONE 'utc'::text)`)
-});
+export const users = pgTable(
+	'users',
+	{
+		id: serial().primaryKey(), // Auto-incrementing primary key
+		email: text('email').unique(), // Primary key
+		name: text('name'),
+		role: roleEnum('role').default('user'), // Defaults to 'user'
+		active: boolean('active').default(true), // Defaults to being active
+		created_at: timestamp({ withTimezone: true, mode: 'string' })
+			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
+			.notNull(),
+		updated_at: timestamp({ withTimezone: true, mode: 'string' })
+			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
+			.notNull()
+			.$onUpdate(() => sql`(now() AT TIME ZONE 'utc'::text)`)
+	},
+	(table) => [
+		// uniqueIndex('emailUniqueIndex').on(sql`lower(${table.email})`),
+		uniqueIndex('emailUniqueIndex').on(lower(table.email))
+	]
+);
+
+// custom lower function
+export function lower(email) {
+	return sql`lower(${email})`;
+}
 
 // Tickets table
 export const tickets = pgTable('tickets', {

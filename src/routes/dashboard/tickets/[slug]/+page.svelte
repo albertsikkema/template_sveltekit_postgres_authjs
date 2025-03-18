@@ -118,32 +118,26 @@
 						};
 					}}
 				>
-					<div class="">
-						<Input inputKey="Title" inputValue={ticket.title} maxLength={50} minLength={3} />
-					</div>
-					<div class="mb-4">
-						<TextArea
-							inputKey="Description"
-							inputValue={ticket.description}
-							placeholder="Add a description..."
-							maxLength={300}
-							minLength={3}
-						/>
-					</div>
-					<div class="mb-4">
-						<FileInput images={ticket.images} />
-					</div>
+					<Input inputKey="Title" inputValue={ticket.title} maxLength={50} minLength={3} />
 
-					<div class="mb-4">
-						<Select
-							inputKey="Status"
-							inputValue={ticket.status}
-							options={{ open: 'Open', closed: 'Closed' }}
-						/>
-					</div>
-					<div class="mb-4">
-						<Select inputKey="Assigned_to" inputValue={ticket.assigned_to} options={userList} />
-					</div>
+					<TextArea
+						inputKey="Description"
+						inputValue={ticket.description}
+						placeholder="Add a description..."
+						maxLength={300}
+						minLength={3}
+					/>
+
+					<FileInput images={ticket.images} />
+
+					<Select
+						inputKey="Status"
+						inputValue={ticket.status}
+						options={{ open: 'Open', closed: 'Closed' }}
+					/>
+
+					<Select inputKey="Assigned_to" inputValue={ticket.assigned_to} options={userList} />
+
 					<input type="hidden" name="created_by" value={ticket.created_by} />
 
 					<div class="flex w-full flex-col items-center justify-end gap-2 md:flex-row">

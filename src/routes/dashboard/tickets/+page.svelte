@@ -246,19 +246,18 @@
 						tabindex="0"
 						role="button"
 						aria-label="Sort by title"
-						>
+					>
 						<div class="flex items-center gap-1">
-
 							Age
 							{#if orderby === 'created_at'}
-							{#if order === 'asc'}
-							<ChevronUpIcon class="h-4 w-4" />
-							{:else}
-							<ChevronDownIcon class="h-4 w-4" />
-							{/if}
+								{#if order === 'asc'}
+									<ChevronUpIcon class="h-4 w-4" />
+								{:else}
+									<ChevronDownIcon class="h-4 w-4" />
+								{/if}
 							{/if}
 						</div>
-						</th>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -300,7 +299,9 @@
 			</tbody>
 		</table>
 		<span class="text-sm text-gray-500 dark:text-gray-400">
-			Showing {(data.currentpage * 10) - 9} - {data.currentpage * 10 < data.total ? data.currentpage * 10 : data.total } of {data.total} tickets
+			Showing {data.currentpage * 10 - 9} - {data.currentpage * 10 < data.total
+				? data.currentpage * 10
+				: data.total} of {data.total} tickets
 		</span>
 	{:else}
 		<div class="mt-16 flex w-full items-center justify-center">

@@ -225,7 +225,9 @@
 			</tbody>
 		</table>
 		<span class="text-sm text-gray-500 dark:text-gray-400">
-			Showing {(data.currentpage * 10) - 9} - {data.currentpage * 10 < data.total ? data.currentpage * 10 : data.total } of {data.total} users
+			Showing {data.currentpage * 10 - 9} - {data.currentpage * 10 < data.total
+				? data.currentpage * 10
+				: data.total} of {data.total} users
 		</span>
 	{:else}
 		<div class="mt-16 flex w-full items-center justify-center">

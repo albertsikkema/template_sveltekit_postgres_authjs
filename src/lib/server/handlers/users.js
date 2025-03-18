@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index'; // Drizzle instance
-import { users } from '$lib/server/db/schema';
+import { users, lower } from '$lib/server/db/schema';
 import { ValidationError, UserAlreadyExistsError } from '$lib/errorclasses';
-import { eq, count, sql, like, or, asc, desc } from 'drizzle-orm';
+import { eq, count, sql, like, or, asc, desc, ilike } from 'drizzle-orm';
 import { logoutUser } from '$lib/authhelpers';
 
 function maxPage(total, limit) {
@@ -23,7 +23,7 @@ export const getUsers = async (params = {}) => {
 		// Apply search filter if search is provided
 		if (search) {
 			baseQuery = baseQuery.where(
-				or(like(users.email, `%${search}%`), like(users.name, `%${search}%`))
+				or(like(lower(users.email), `%${search.toLowerCase()}%`), ilike(users.name, `%${search}%`))
 			);
 		}
 
@@ -31,7 +31,9 @@ export const getUsers = async (params = {}) => {
 		// 1️⃣ Query for total count (without limit & offset)
 		const totalQuery = db.select({ count: count() }).from(users);
 		if (search) {
-			totalQuery.where(or(like(users.name, `%${search}%`), like(users.email, `%${search}%`))); // apply search filter
+			totalQuery.where(
+				or(like(lower(users.email), `%${search.toLowerCase()}%`), ilike(users.name, `%${search}%`))
+			); // apply search filter
 		}
 		const total = await totalQuery;
 		const maxpage = maxPage(total[0]?.count, limit);
@@ -60,6 +62,8 @@ export const getUsers = async (params = {}) => {
 			.limit(limit)
 			.offset(offset);
 
+		console.log('resultUsers', resultUsers);
+		// Return result
 		return {
 			users: resultUsers,
 			total: total[0]?.count || 0,

@@ -89,8 +89,12 @@
 						};
 					}}
 				>
-					<Input inputKey="Email" maxLength={50} inputValue={user.email} inputType="email" />
-					<Input inputKey="Name" maxLength={30} inputValue={user.name} requiredInput={false} />
+					<div>
+						<Input inputKey="Email" maxLength={50} inputValue={user.email} inputType="email" />
+					</div>
+					<div>
+						<Input inputKey="Name" maxLength={30} inputValue={user.name} requiredInput={false} />
+					</div>
 					<div>
 						<Select
 							inputKey="Role"
@@ -101,8 +105,9 @@
 							User is the default role, please do not grant Admin role easily.
 						</span>
 					</div>
-					<Checkbox inputKey="Active" inputValue={user.active} />
-
+					<div>
+						<Checkbox inputKey="Active" inputValue={user.active} />
+					</div>
 					<div class="flex w-full flex-col items-center justify-end gap-2 md:flex-row">
 						<button type="submit" class="btn btn-primary w-full md:w-24">Save</button>
 						<button type="reset" class="btn btn-outline w-full md:w-24" onclick={handleCancelForm}
