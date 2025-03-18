@@ -81,5 +81,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 		sessionsTable: auth_sessions,
 		verificationTokensTable: auth_verificationTokens
 	}),
-	providers
+	providers, 
+	trustHost: true
 });
