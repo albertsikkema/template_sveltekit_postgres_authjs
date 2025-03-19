@@ -25,6 +25,7 @@
 	let isEditing = $state(false);
 
 	let resultFormMessage = $state({});
+	let inputErrors = $state({});
 
 	const handleCancelForm = () => {
 		goto('/dashboard/users');
@@ -76,24 +77,53 @@
 					action="?/createuser"
 					enctype="multipart/form-data"
 					class="w-full space-y-4"
+					id="createuserform"
 					use:enhance={() => {
 						return async ({ result, update }) => {
+							const form = document.getElementById('createuserform');
+
 							if (result?.type === 'success') {
-								resultFormMessage = { success: true, message: 'User created successfully!' };
 								toast.success('User created successfully!');
 								goto('/dashboard/users');
 							} else {
-								// update the form message
-								resultFormMessage = { success: false, message: result.data.message };
+								console.log('result', result);
+
+								// If the server returned validation errors
+								// update(); // Refresh the form data
+
+								// You can loop through errors if returned as an object
+								const errors = result.data.errors || {};
+								for (const [field, message] of Object.entries(errors)) {
+									console.log('field', field);
+									inputErrors[field] = message; // Store each error message
+									const input = form.querySelector(`[name="${field}"]`);
+									if (input) {
+										input.setCustomValidity(message); // Set the custom validity
+										input.reportValidity(); // This will show the custom message
+									}
+								}
+								const messageAllErrors = Object.values(errors).join(', ');
 							}
 						};
 					}}
 				>
 					<div>
-						<Input inputKey="Email" maxLength={50} inputValue={user.email} inputType="email" />
+						<Input
+							inputKey="Email"
+							maxLength={50}
+							inputValue={user.email}
+							inputType="email"
+							errorMessage={inputErrors.email || ''}
+						/>
 					</div>
 					<div>
-						<Input inputKey="Name" maxLength={30} inputValue={user.name} requiredInput={false} />
+						<Input
+							inputKey="Name"
+							maxLength={30}
+							inputValue={user.name}
+							requiredInput={false}
+							errorMessage={inputErrors.name || ''}
+						/>
 					</div>
 					<div>
 						<Select
@@ -114,8 +144,6 @@
 							>Cancel</button
 						>
 					</div>
-					<!-- if form errors -->
-					<ErrorMessage formMessage={resultFormMessage} />
 				</form>
 			{:else}
 				<form
@@ -123,27 +151,53 @@
 					action="?/updateuser"
 					enctype="multipart/form-data"
 					class="w-full space-y-4"
+					id="updateuserform"
 					use:enhance={() => {
 						return async ({ result, update }) => {
+							const form = document.getElementById('updateuserform');
 							if (result?.type === 'success') {
-								resultFormMessage = { success: true, message: result.data.message };
 								toast.success('User updated successfully!');
 								goto('/dashboard/users');
 							} else {
-								// update the form message
-								resultFormMessage = { success: false, message: result.data.message };
+								console.log('result', result);
+
+								// If the server returned validation errors
+								update(); // Refresh the form data
+
+								// You can loop through errors if returned as an object
+								const errors = result.data.errors || {};
+								for (const [field, message] of Object.entries(errors)) {
+									inputErrors[field] = message; // Store each error message
+									const input = form.querySelector(`[name="${field}"]`);
+									if (input) {
+										input.setCustomValidity(message); // Set the custom validity
+										input.reportValidity(); // This will show the custom message
+									}
+								}
+								const messageAllErrors = Object.values(errors).join(', ');
 							}
 						};
 					}}
 				>
-					<Input inputKey="Email" maxLength={50} inputValue={user.email} inputType="email" />
-					<Input
-						inputKey="Name"
-						maxLength={30}
-						minLength={3}
-						inputValue={user.name}
-						requiredInput={false}
-					/>
+					<div>
+						<Input
+							inputKey="Email"
+							maxLength={50}
+							inputValue={user.email}
+							inputType="email"
+							errorMessage={inputErrors.email}
+						/>
+					</div>
+					<div>
+						<Input
+							inputKey="Name"
+							maxLength={30}
+							minLength={3}
+							inputValue={user.name}
+							requiredInput={false}
+							errorMessage={inputErrors.name}
+						/>
+					</div>
 					<div>
 						<Select
 							inputKey="Role"
@@ -168,7 +222,7 @@
 			{/if}
 			<!-- if form errors -->
 			<div class="mt-4">
-				<ErrorMessage formMessage={resultFormMessage} />
+				<ErrorMessage {inputErrors} />
 			</div>
 		{/if}
 	</div>
@@ -274,10 +328,11 @@
 						handleCloseLogoutItemModal(); // Close modal on success
 						update(); // Refresh UI
 					} else {
-						resultFormMessage = {
-							success: false,
-							message: result?.data?.message ?? 'Something went wrong. Please try again.'
-						};
+						console.log('result', result);
+						const errors = result.data.errors || {};
+						for (const [field, message] of Object.entries(errors)) {
+							inputErrors[field] = message; // Store each error message
+						}
 					}
 				};
 			}}
@@ -296,6 +351,6 @@
 	</div>
 	<!-- if form errors -->
 	<div class="mt-4">
-		<ErrorMessage formMessage={resultFormMessage} />
+		<ErrorMessage {inputErrors} />
 	</div>
 </Dialog>

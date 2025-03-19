@@ -1,10 +1,9 @@
 <script>
-	export let formMessage;
+	export let inputErrors;
 </script>
 
-{#if formMessage?.success === false}
+{#if inputErrors && Object.keys(inputErrors).length > 0}
 	<div class="flex flex-col gap-2">
-		{#each formMessage.message as msg}
 			<div role="alert" class="alert alert-warning w-full">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +18,11 @@
 						d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 					></path>
 				</svg>
-				<span>{msg}</span>
+				<!-- inputErrors is an {} with key and value, show both -->
+				 <!-- make sure key starts with uppercase -->
+				{#each Object.entries(inputErrors) as [key, value]}
+				<p>{key.charAt(0).toUpperCase() + key.slice(1)}: {value}</p>
+				{/each}
 			</div>
-		{/each}
 	</div>
 {/if}

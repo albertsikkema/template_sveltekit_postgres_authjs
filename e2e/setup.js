@@ -13,3 +13,5 @@ export async function authenticateUser(email) {
   });
 
   console.log("Magic link response:", response.status());
+  return context;
+}

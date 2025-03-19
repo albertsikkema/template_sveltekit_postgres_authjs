@@ -6,6 +6,7 @@
 	export let inputType = 'text';
 	export let requiredInput = true;
 	export let disabled = false;
+	export let errorMessage = ''; 
 </script>
 
 <div class="flex w-full flex-row items-center justify-between">
@@ -30,6 +31,9 @@
 />
 
 <p class="validator-hint hidden">
+	{#if errorMessage}
+    	- {errorMessage}<br />
+	{/if}
 	{#if requiredInput}
 		- Required field<br />
 	{/if}

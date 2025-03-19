@@ -56,9 +56,7 @@ const adminPaths = ['/admin'];
 export const protectRoutes = async ({ event, resolve }) => {
 	// Retrieve the session
 	const session = await event.locals.auth();
-	console.log('protectRoutes', session);
 	event.locals.session = session; // Make session available globally in hooks
-
 	const path = event.url.pathname;
 
 	// If user tries to access a restricted page without being logged in
@@ -80,7 +78,6 @@ export const protectRoutes = async ({ event, resolve }) => {
 };
 
 export const lastHandler = async function ({ event, resolve }) {
-	console.log('lastHandler', event.locals);
 	const response = await resolve(event);
 	hooksLogger({ statusCode: response.status, event: event });
 	return response;

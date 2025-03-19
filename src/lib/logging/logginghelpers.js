@@ -1,6 +1,5 @@
 // getAllUrlParams.ts
 export async function getAllUrlParams(url) {
-	console.log('getAllUrlParams', url);
 	let paramsObj = {};
 
 	try {
@@ -29,8 +28,6 @@ export async function parseMessage(message) {
 				messageObj = message;
 			}
 		}
-
-		console.log('messageObj:', messageObj);
 	} catch (error) {
 		console.log('error:', error);
 	}
