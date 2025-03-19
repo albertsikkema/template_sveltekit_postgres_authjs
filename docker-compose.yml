@@ -4,8 +4,21 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: local
+  
+  web:
+    container_name: sveltekit
+    environment:
+      - ORIGIN=http://localhost:3000
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
