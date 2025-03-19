@@ -1,31 +1,17 @@
 <script lang="js">
 	import {
-		UserPlusIcon,
-		PencilSquareIcon,
-		ExclamationCircleIcon,
-		TrashIcon,
 		MagnifyingGlassIcon,
 		XMarkIcon,
-		EnvelopeIcon,
-		UserIcon,
 		PlusIcon,
 		ChevronUpIcon,
 		ChevronDownIcon
 	} from 'heroicons-svelte/24/outline';
-	import { enhance } from '$app/forms';
-	import { toast } from 'svoast';
-	import TextArea from '../../../components/form/TextArea.svelte';
-	import Input from '../../../components/form/Input.svelte';
-	import FileInput from '../../../components/form/FileInput.svelte';
-	import Select from '../../../components/form/Select.svelte';
-	import ErrorMessage from '../../../components/form/ErrorMessage.svelte';
-	import Dialog from '../../../components/Dialog.svelte';
 	import { goto } from '$app/navigation';
 	import { debounce } from 'lodash-es';
 	import { browser } from '$app/environment';
 	import Pagination from '../../../components/Pagination.svelte';
 	import { determineage } from '$lib/helpers/functions';
-	let { data, form } = $props();
+	let { data } = $props();
 
 	let searchTerm = $state('');
 	let orderby = $state('created_at');
@@ -39,6 +25,7 @@
 		searchTerm = params.get('search') || '';
 		orderby = params.get('orderby') || 'created_at';
 		order = params.get('order') || 'asc';
+		// eslint-disable-next-line
 		page = params.get('page') || 1;
 	}
 
@@ -261,7 +248,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each data.tickets as item}
+				{#each data.tickets as item (item.id)}
 					<tr
 						class="hover:bg-base-300"
 						onclick={() => handleOpenItem(item.id)}

@@ -5,6 +5,7 @@
 	export let inputValue = '';
 	export let maxLength = 300;
 	export let minLength = 0;
+	export let errorMessage = '';
 
 	// Regular expression that matches any character NOT allowed:
 	// Allowed: uppercase letters, lowercase letters, digits, hyphen, and space.
@@ -49,6 +50,9 @@
 
 <!-- Validator hint is now always visible -->
 <p class="validator-hint hidden">
+	{#if errorMessage}
+		- {errorMessage}<br />
+	{/if}
 	{#if minLength > 0}
 		- At least {minLength} characters<br />
 	{/if}

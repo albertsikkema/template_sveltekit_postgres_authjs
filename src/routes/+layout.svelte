@@ -2,11 +2,7 @@
 	import '../app.css';
 	let { children } = $props();
 
-	import { Toasts, toast } from 'svoast';
-
-	function showToastMessage(message) {
-		toast.success(message);
-	}
+	import { Toasts } from 'svoast';
 </script>
 
 <Toasts position="top-right" />

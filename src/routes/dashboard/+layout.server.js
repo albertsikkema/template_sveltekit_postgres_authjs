@@ -2,7 +2,7 @@
 import { errorLogger } from '$lib/logging/errorLogger.js';
 import { getOpenTicketsCount } from '$lib/server/handlers/tickets';
 import { fail } from '@sveltejs/kit';
-export async function load({ locals, fetch, url }) {
+export async function load({ locals, url }) {
 	try {
 		let opentickets = await getOpenTicketsCount();
 

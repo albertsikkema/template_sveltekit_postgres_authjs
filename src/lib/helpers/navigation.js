@@ -8,7 +8,6 @@ import {
 	FileDocOutline,
 	ChartPieOutline
 } from 'flowbite-svelte-icons';
-import { File } from 'node:buffer';
 
 // Define the navigation items
 export const navigation = [

@@ -53,7 +53,7 @@
 		<div class="mt-3">
 			<strong class="text-sm">Selected Files:</strong>
 			<ul class="mt-1 list-disc pl-5 text-sm text-gray-600 dark:text-gray-200">
-				{#each selectedFiles as file}
+				{#each selectedFiles as file (file)}
 					<li>{file}</li>
 				{/each}
 			</ul>

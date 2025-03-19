@@ -1,15 +1,5 @@
 <script>
-	import {
-		UserPlusIcon,
-		PencilSquareIcon,
-		ExclamationCircleIcon,
-		TrashIcon,
-		MagnifyingGlassIcon,
-		XMarkIcon,
-		EnvelopeIcon,
-		UserIcon,
-		PlusIcon
-	} from 'heroicons-svelte/24/outline';
+	import { ExclamationCircleIcon } from 'heroicons-svelte/24/outline';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
 	import TextArea from '../../../../components/form/TextArea.svelte';
@@ -26,7 +16,7 @@
 	let slug = data.slug;
 	let error = data.error;
 
-	let resultFormMessage = $state({});
+	let inputErrors = $state({});
 
 	const handleCancelForm = () => {
 		goto('/dashboard/tickets');
@@ -66,24 +56,44 @@
 					action="?/createticket"
 					enctype="multipart/form-data"
 					class="w-full space-y-4"
+					id="createticketform"
 					use:enhance={() => {
-						return async ({ result, update }) => {
+						return async ({ result }) => {
+							const form = document.getElementById('createticketform');
 							if (result?.type === 'success') {
-								resultFormMessage = { success: true, message: 'Ticket created successfully!' };
 								toast.success('Ticket created successfully!');
 								goto('/dashboard/tickets');
 							} else {
-								// update the form message
-								resultFormMessage = { success: false, message: result.data.message };
+								console.log('result', result);
+								const errors = result.data.errors || {};
+								for (const [field, message] of Object.entries(errors)) {
+									console.log('field', field);
+									inputErrors[field] = message; // Store each error message
+									const input = form.querySelector(`[name="${field}"]`);
+									if (input) {
+										input.setCustomValidity(message); // Set the custom validity
+										input.reportValidity(); // This will show the custom message
+									}
+								}
 							}
 						};
 					}}
 				>
 					<div>
-						<Input inputKey="Title" maxLength={50} minLength={3} />
+						<Input
+							inputKey="Title"
+							maxLength={50}
+							minLength={3}
+							errorMessage={inputErrors.title || ''}
+						/>
 					</div>
 					<div>
-						<TextArea inputKey="Description" placeholder="Add a description..." maxLength={300} />
+						<TextArea
+							inputKey="Description"
+							placeholder="Add a description..."
+							maxLength={300}
+							errorMessage={inputErrors.description || ''}
+						/>
 					</div>
 
 					<div>
@@ -96,8 +106,6 @@
 							>Cancel</button
 						>
 					</div>
-					<!-- if form errors -->
-					<ErrorMessage formMessage={resultFormMessage} />
 				</form>
 			{:else}
 				<form
@@ -105,39 +113,61 @@
 					action="?/updateticket"
 					enctype="multipart/form-data"
 					class="w-full space-y-4"
+					id="updateticketform"
 					use:enhance={() => {
-						return async ({ result, update }) => {
+						return async ({ result }) => {
+							let form = document.getElementById('updateticketform');
 							if (result?.type === 'success') {
-								resultFormMessage = { success: true, message: result.data.message };
 								toast.success('Ticket updated successfully!');
 								goto('/dashboard/tickets');
 							} else {
-								// update the form message
-								resultFormMessage = { success: false, message: result.data.message };
+								console.log('result', result);
+								const errors = result.data.errors || {};
+								for (const [field, message] of Object.entries(errors)) {
+									console.log('field', field);
+									inputErrors[field] = message; // Store each error message
+									const input = form.querySelector(`[name="${field}"]`);
+									if (input) {
+										input.setCustomValidity(message); // Set the custom validity
+										input.reportValidity(); // This will show the custom message
+									}
+								}
 							}
 						};
 					}}
 				>
-					<Input inputKey="Title" inputValue={ticket.title} maxLength={50} minLength={3} />
-
-					<TextArea
-						inputKey="Description"
-						inputValue={ticket.description}
-						placeholder="Add a description..."
-						maxLength={300}
-						minLength={3}
-					/>
-
-					<FileInput images={ticket.images} />
-
-					<Select
-						inputKey="Status"
-						inputValue={ticket.status}
-						options={{ open: 'Open', closed: 'Closed' }}
-					/>
-
-					<Select inputKey="Assigned_to" inputValue={ticket.assigned_to} options={userList} />
-
+					<div>
+						<Input
+							inputKey="Title"
+							inputValue={ticket.title}
+							maxLength={50}
+							minLength={3}
+							errorMessage={inputErrors.title || ''}
+						/>
+					</div>
+					<div>
+						<TextArea
+							inputKey="Description"
+							inputValue={ticket.description}
+							placeholder="Add a description..."
+							maxLength={300}
+							minLength={3}
+							errorMessage={inputErrors.description || ''}
+						/>
+					</div>
+					<div>
+						<FileInput images={ticket.images} />
+					</div>
+					<div>
+						<Select
+							inputKey="Status"
+							inputValue={ticket.status}
+							options={{ open: 'Open', closed: 'Closed' }}
+						/>
+					</div>
+					<div>
+						<Select inputKey="Assigned_to" inputValue={ticket.assigned_to} options={userList} />
+					</div>
 					<input type="hidden" name="created_by" value={ticket.created_by} />
 
 					<div class="flex w-full flex-col items-center justify-end gap-2 md:flex-row">
@@ -152,7 +182,7 @@
 			{/if}
 			<!-- if form errors -->
 			<div class="mt-4">
-				<ErrorMessage formMessage={resultFormMessage} />
+				<ErrorMessage {inputErrors} />
 			</div>
 		{/if}
 	</div>
@@ -193,20 +223,16 @@
 			action="?/deleteticket"
 			class="flex flex-col space-y-4"
 			use:enhance={() => {
-				return async ({ result, update }) => {
+				return async ({ result }) => {
 					if (result?.type === 'success') {
-						resultFormMessage = {
-							success: true,
-							message: result?.data?.message ?? 'Ticket deleted successfully!'
-						};
-						handleCloseDeleteItemModal(); // Close modal on success
-						update(); // Refresh UI
 						toast.success('Ticket deleted successfully!');
+						goto('/dashboard/tickets');
 					} else {
-						resultFormMessage = {
-							success: false,
-							message: result?.data?.message ?? 'Something went wrong. Please try again.'
-						};
+						console.log('result', result);
+						const errors = result.data.errors || {};
+						for (const [field, message] of Object.entries(errors)) {
+							inputErrors[field] = message; // Store each error message
+						}
 					}
 				};
 			}}
@@ -225,6 +251,6 @@
 	</div>
 	<!-- if form errors -->
 	<div class="mt-4">
-		<ErrorMessage formMessage={resultFormMessage} />
+		<ErrorMessage {inputErrors} />
 	</div>
 </Dialog>

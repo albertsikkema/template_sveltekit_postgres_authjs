@@ -1,16 +1,23 @@
 <script lang="js">
-	import { UserPlusIcon, MagnifyingGlassIcon, XMarkIcon } from 'heroicons-svelte/24/outline';
+	import {
+		UserPlusIcon,
+		MagnifyingGlassIcon,
+		XMarkIcon,
+		ChevronUpIcon,
+		ChevronDownIcon
+	} from 'heroicons-svelte/24/outline';
+
 	import { goto } from '$app/navigation';
 	import { debounce } from 'lodash-es';
 	import { browser } from '$app/environment';
 	import Pagination from '../../../components/Pagination.svelte';
 
-	let { data, form } = $props();
+	let { data } = $props();
 
 	let searchTerm = $state('');
 	let orderby = $state('created_at');
 	let order = $state('asc');
-	let page = 1;
+	let page = $state(1);
 	let searchInput;
 
 	// ✅ Ensure this only runs in the browser
@@ -19,6 +26,7 @@
 		searchTerm = params.get('search') || '';
 		orderby = params.get('orderby') || 'created_at';
 		order = params.get('order') || 'asc';
+		// eslint-disable-next-line
 		page = params.get('page') || 1;
 	}
 
@@ -202,7 +210,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each data.users as item}
+				{#each data.users as item (item.id)}
 					<tr
 						class="hover:bg-base-300"
 						onclick={() => handleOpenItem(item.id)}

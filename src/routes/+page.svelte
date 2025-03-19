@@ -67,7 +67,7 @@
 				<div
 					class="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
 				>
-					Wonderful template to build apps fast.{' '}
+					Wonderful template to build apps fast.
 					<a href="/" class="font-semibold text-indigo-600">
 						<span aria-hidden="true" class="absolute inset-0"></span>
 						Read more <span aria-hidden="true">&rarr;</span>
@@ -80,7 +80,7 @@
 				</h1>
 				<p class="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
 					The time from idea to proof of concept is shorter than ever. Save up to 90% in time and
-					resources!{' '}
+					resources!
 				</p>
 				<div class="mt-10 flex items-center justify-center gap-x-6">
 					<a
@@ -114,8 +114,8 @@
 		</div>
 		<div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
 			<dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
-				{#each features as feature}
-					<div key={feature.name} class="flex flex-col">
+				{#each features as feature (feature.name)}
+					<div class="flex flex-col">
 						<dt class="flex items-center gap-x-3 text-base/7 font-semibold text-gray-900">
 							<feature.icon aria-hidden="true" class="size-5 flex-none text-indigo-600" />
 							{feature.name}

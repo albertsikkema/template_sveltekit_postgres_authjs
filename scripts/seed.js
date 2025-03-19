@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import crypto from 'crypto'; // Importing crypto for UUID generation
 import pg from 'pg';
 const { Client } = pg;
 // import sql from 'sql-template-strings'; // For SQL template strings

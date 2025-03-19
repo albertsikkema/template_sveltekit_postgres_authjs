@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index'; // Drizzle instance
 import { users, lower } from '$lib/server/db/schema';
 import { ValidationError, UserAlreadyExistsError } from '$lib/errorclasses';
-import { eq, count, sql, like, or, asc, desc, ilike } from 'drizzle-orm';
+import { eq, count, like, or, asc, desc, ilike } from 'drizzle-orm';
 import { logoutUser } from '$lib/authhelpers';
 
 function maxPage(total, limit) {

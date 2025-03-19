@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: local
-  
+
   web:
     container_name: sveltekit
     environment:

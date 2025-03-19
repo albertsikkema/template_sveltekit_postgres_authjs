@@ -5,7 +5,6 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '$lib/server/db/index';
 import {
 	auth_accounts,
-	auth_authenticators,
 	auth_sessions,
 	auth_users,
 	auth_verificationTokens,
@@ -81,6 +80,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 		sessionsTable: auth_sessions,
 		verificationTokensTable: auth_verificationTokens
 	}),
-	providers, 
+	providers,
 	trustHost: true
 });

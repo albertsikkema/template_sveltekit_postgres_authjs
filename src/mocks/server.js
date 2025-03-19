@@ -19,7 +19,8 @@ export const handlers = [
 
 export const server = setupServer(...handlers);
 
-// ✅ Ensure mock server runs before/after tests
+/* eslint-disable */
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
+/* eslint-enable */

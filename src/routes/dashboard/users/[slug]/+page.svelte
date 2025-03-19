@@ -1,17 +1,8 @@
 <script lang="js">
-	import {
-		UserPlusIcon,
-		PencilSquareIcon,
-		ExclamationCircleIcon,
-		TrashIcon,
-		MagnifyingGlassIcon,
-		XMarkIcon
-	} from 'heroicons-svelte/24/outline';
+	import { ExclamationCircleIcon } from 'heroicons-svelte/24/outline';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
-	import TextArea from '../../../../components/form/TextArea.svelte';
 	import Input from '../../../../components/form/Input.svelte';
-	import FileInput from '../../../../components/form/FileInput.svelte';
 	import Select from '../../../../components/form/Select.svelte';
 	import ErrorMessage from '../../../../components/form/ErrorMessage.svelte';
 	import Checkbox from '../../../../components/form/Checkbox.svelte';
@@ -22,26 +13,12 @@
 	let user = $state(data.user);
 	let slug = data.slug;
 	let error = data.error;
-	let isEditing = $state(false);
 
-	let resultFormMessage = $state({});
 	let inputErrors = $state({});
 
 	const handleCancelForm = () => {
 		goto('/dashboard/users');
 	};
-
-	function handleOpenDeleteItemModal(item) {
-		user = item;
-		const element = document.getElementById('deleteitemmodal');
-		element.showModal();
-	}
-
-	function handleCloseDeleteItemModal() {
-		const element = document.getElementById('deleteitemmodal');
-		element.close();
-		goto('/dashboard/users');
-	}
 
 	function handleOpenLogoutItemModal(item) {
 		user = item;
@@ -89,7 +66,7 @@
 								console.log('result', result);
 
 								// If the server returned validation errors
-								// update(); // Refresh the form data
+								update(); // Refresh the form data
 
 								// You can loop through errors if returned as an object
 								const errors = result.data.errors || {};
@@ -102,7 +79,6 @@
 										input.reportValidity(); // This will show the custom message
 									}
 								}
-								const messageAllErrors = Object.values(errors).join(', ');
 							}
 						};
 					}}
@@ -174,7 +150,6 @@
 										input.reportValidity(); // This will show the custom message
 									}
 								}
-								const messageAllErrors = Object.values(errors).join(', ');
 							}
 						};
 					}}
@@ -245,61 +220,6 @@
 	{/if}
 </div>
 
-<Dialog id="deleteitemmodal" title="Confirm Delete User">
-	<p class="py-4">
-		Are you sure you want to permanently delete user
-		<span class="font-bold">
-			{user?.title}
-		</span>
-		with email
-		<span class="font-bold">
-			{user?.email}
-		</span>
-
-		?
-	</p>
-	<div class="modal-action w-full">
-		<form
-			method="POST"
-			action="?/deleteuser"
-			class="flex flex-col space-y-4"
-			use:enhance={() => {
-				return async ({ result, update }) => {
-					if (result?.type === 'success') {
-						resultFormMessage = {
-							success: true,
-							message: result?.data?.message ?? 'Item deleted successfully!'
-						};
-						update(); // Refresh UI
-						toast.success('User deleted successfully!');
-						goto('/dashboard/users');
-					} else {
-						resultFormMessage = {
-							success: false,
-							message: result?.data?.message ?? 'Something went wrong. Please try again.'
-						};
-					}
-				};
-			}}
-		>
-			<input type="hidden" name="id" value={user.id} />
-			<div class="flex w-full flex-row items-center gap-2">
-				<button type="submit" class="btn btn-primary w-24">Delete</button>
-				<button
-					type="reset"
-					class="btn btn-outline w-24"
-					color="light"
-					onclick={() => handleCloseDeleteItemModal()}>Cancel</button
-				>
-			</div>
-		</form>
-	</div>
-	<!-- if form errors -->
-	<div class="mt-4">
-		<ErrorMessage formMessage={resultFormMessage} />
-	</div>
-</Dialog>
-
 <Dialog id="logoutitemmodal" title="Log Out User">
 	<p class="py-4">
 		Are you sure you want to log out user
@@ -320,11 +240,7 @@
 			use:enhance={() => {
 				return async ({ result, update }) => {
 					if (result?.type === 'success') {
-						resultFormMessage = {
-							success: true,
-							message: result?.data?.message ?? 'User logged out successfully!'
-						};
-						toast.success(resultFormMessage.message);
+						toast.success('User logged out successfully!');
 						handleCloseLogoutItemModal(); // Close modal on success
 						update(); // Refresh UI
 					} else {

@@ -7,7 +7,6 @@ import hooksLogger from '$lib/logging/hookslogger';
 import logger from '$lib/logging/logger';
 import { hashUserData } from '$lib/privacyhelper';
 import crypto from 'crypto';
-import { requireRole } from '$lib/authhelpers';
 
 logger.info('Server: ready!');
 

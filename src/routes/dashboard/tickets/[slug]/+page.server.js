@@ -1,11 +1,5 @@
 import { errorLogger } from '$lib/logging/errorLogger.js';
-import {
-	getTickets,
-	createTicket,
-	updateTicket,
-	deleteTicket,
-	getTicket
-} from '$lib/server/handlers/tickets';
+import { createTicket, updateTicket, deleteTicket, getTicket } from '$lib/server/handlers/tickets';
 import { getUsers } from '$lib/server/handlers/users';
 import { fail } from '@sveltejs/kit';
 import { tickets } from '$lib/server/db/schema.js';
@@ -79,24 +73,24 @@ export const actions = {
 		try {
 			const parsedTicket = ticketInsertSchema.parse({ title, description, created_by, images });
 			// Save ticket with attached files
-			const result = await createTicket(parsedTicket);
+			await createTicket(parsedTicket);
 			return { success: true, message: 'Ticket created' };
 		} catch (error) {
-			let errormessages = [error.message];
+			let errormessages = {};
 			if (error instanceof ZodError) {
-				errormessages = [];
-				error.errors.map((error) => {
-					errormessages.push(error.path[0] + ': ' + error.message);
+				error.errors.forEach((error) => {
+					errormessages[error.path[0]] = error.message; // Use the field name as key
 				});
+			} else {
+				errormessages['error'] = error.message;
 			}
-			errorLogger(error, event, 'error updating ticket');
+			errorLogger(error.message, event, 'error updating ticket');
 			return fail(400, {
 				title,
 				description,
 				created_by,
 				images,
-				error: true,
-				message: errormessages
+				errors: errormessages
 			});
 		}
 	},
@@ -133,17 +127,18 @@ export const actions = {
 				images
 			});
 			// Update ticket with attached files
-			const result = await updateTicket(parsedTicket);
+			await updateTicket(parsedTicket);
 			return { success: true, message: 'Ticket updated' };
 		} catch (error) {
-			let errormessages = [error.message];
+			let errormessages = {};
 			if (error instanceof ZodError) {
-				errormessages = [];
-				error.errors.map((error) => {
-					errormessages.push(error.path[0] + ': ' + error.message);
+				error.errors.forEach((error) => {
+					errormessages[error.path[0]] = error.message; // Use the field name as key
 				});
+			} else {
+				errormessages['error'] = error.message;
 			}
-			errorLogger(error, event, 'error updating ticket');
+			errorLogger(error.message, event, 'error updating ticket');
 			return fail(400, {
 				id,
 				title,
@@ -152,8 +147,7 @@ export const actions = {
 				assigned_to,
 				status,
 				images,
-				error: true,
-				message: errormessages
+				errors: errormessages
 			});
 		}
 	},
@@ -165,8 +159,9 @@ export const actions = {
 			await deleteTicket(id);
 			return { success: true, message: 'Ticket deleted' };
 		} catch (error) {
-			errorLogger(error, event, 'error deleting ticket');
-			return fail(400, { id, error: true, message: error.message });
+			let errormessages = { error: error.message };
+			errorLogger(error.message, event, 'error deleting ticket');
+			return fail(400, { id, errors: errormessages });
 		}
 	}
 };

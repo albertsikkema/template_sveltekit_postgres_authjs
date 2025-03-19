@@ -9,7 +9,7 @@
 </div>
 
 <select class="select select-bordered w-full" name={inputKey.toLowerCase()} bind:value={inputValue}>
-	{#each Object.keys(options) as option}
+	{#each Object.keys(options) as option (option)}
 		<option value={option}>{options[option]}</option>
 	{/each}
 </select>

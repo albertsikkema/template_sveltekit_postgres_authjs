@@ -1,5 +1,5 @@
 <script>
-	import { HomeIcon, ArrowRightOnRectangleIcon } from 'heroicons-svelte/24/outline';
+	import { ArrowRightOnRectangleIcon } from 'heroicons-svelte/24/outline';
 	import { page } from '$app/stores';
 	import { navigation } from '$lib/navigationMenu';
 	import { signOut } from '@auth/sveltekit/client';
@@ -34,13 +34,15 @@
 	}
 
 	// show only the menu items that the user has permission for
+	// ignore eslint warning
+	// eslint-disable-next-line no-unused-vars
 	function isAuthorized(permission) {
 		return true;
 	}
 </script>
 
 <div
-	class={`text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0`}
+	class="text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0"
 >
 	<span>
 		<div class="flex h-16 items-center justify-around gap-2 border-b border-gray-300">
@@ -48,7 +50,7 @@
 		</div>
 		<nav aria-label="Sidebar" class="flex flex-1 flex-col">
 			<ul role="list" class="-mx-2 space-y-1 px-4">
-				{#each navigation as nav}
+				{#each navigation as nav (nav.name)}
 					{#if isAuthorized(nav.permission)}
 						<li key={nav.name}>
 							<a
@@ -104,7 +106,7 @@
 </div>
 
 <div class="dock bottom-0 z-99 h-16 w-full bg-gray-200 md:hidden">
-	{#each navigation as nav}
+	{#each navigation as nav (nav.name)}
 		{#if isAuthorized(nav.permission)}
 			<a href={nav.href}>
 				<nav.icon

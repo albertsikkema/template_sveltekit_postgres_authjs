@@ -2,10 +2,7 @@ import {
 	UsersOutline,
 	ChartOutline,
 	CameraPhotoOutline,
-	FolderOutline,
-	CalendarMonthOutline,
-	FileLinesOutline,
-	ChartPieOutline
+	FolderOutline
 } from 'flowbite-svelte-icons';
 
 export const navigation = [

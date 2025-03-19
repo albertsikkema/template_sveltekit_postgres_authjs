@@ -1,5 +1,5 @@
 import { errorLogger } from '$lib/logging/errorLogger.js';
-import { getUsers, getUser, createUser, updateUser, deleteUser } from '$lib/server/handlers/users';
+import { getUser, createUser, updateUser, deleteUser } from '$lib/server/handlers/users';
 import { logoutUser } from '$lib/authhelpers.js';
 import { fail } from '@sveltejs/kit';
 import { users } from '$lib/server/db/schema';
@@ -50,7 +50,7 @@ export const actions = {
 		const isActive = active === 'true' || active === 'on';
 		try {
 			const parsedUser = userInsertSchema.parse({ email, name, role, active: isActive });
-			const result = await createUser(parsedUser);
+			await createUser(parsedUser);
 			return { success: true, message: 'User created' };
 		} catch (error) {
 			let errormessages = {};
@@ -58,7 +58,7 @@ export const actions = {
 				errormessages['email'] = error.message;
 			} else if (error instanceof ZodError) {
 				error.errors.forEach((error) => {
-					errormessages[error.path[0]] = error.message;  // Use the field name as key
+					errormessages[error.path[0]] = error.message; // Use the field name as key
 				});
 			} else {
 				errormessages['error'] = error.message;
@@ -76,19 +76,21 @@ export const actions = {
 		try {
 			const parsedUser = userUpdateSchema.parse({
 				id,
-				email: true,
+				email,
 				name,
 				role,
 				active: isActive
 			});
-			const result = await updateUser(parsedUser);
+			await updateUser(parsedUser);
 			return { success: true, message: 'User updated' };
 		} catch (error) {
 			let errormessages = {};
 			if (error instanceof ZodError) {
 				error.errors.forEach((error) => {
-					errormessages[error.path[0]] = error.message;  // Use the field name as key
+					errormessages[error.path[0]] = error.message; // Use the field name as key
 				});
+			} else {
+				errormessages['error'] = error.message;
 			}
 			errorLogger(error.message, event, 'error updating user');
 			return fail(400, { name, role, email, active, errors: errormessages });
@@ -102,7 +104,7 @@ export const actions = {
 			await deleteUser(id);
 			return { success: true, message: 'User deleted' };
 		} catch (error) {
-			let errormessages = {"error": error.message};
+			let errormessages = { error: error.message };
 			errorLogger(error.message, event, 'error deleting user');
 			return fail(400, { id, errors: errormessages });
 		}
@@ -113,8 +115,7 @@ export const actions = {
 	loguserout: async (event) => {
 		const data = await event.request.formData();
 		const { email } = Object.fromEntries(data);
-			await logoutUser(email);
-			return { success: true, message: 'User is logged out' };
-		
+		await logoutUser(email);
+		return { success: true, message: 'User is logged out' };
 	}
 };

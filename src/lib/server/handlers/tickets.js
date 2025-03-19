@@ -1,10 +1,8 @@
 import { db } from '$lib/server/db/index'; // Drizzle instance
 import { tickets, users } from '$lib/server/db/schema';
 import { ValidationError } from '$lib/errorclasses';
-import { eq, count, sql, like, or, asc, desc, ilike } from 'drizzle-orm';
+import { eq, count, or, asc, desc, ilike } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
-import { nan } from 'zod';
-import { errorLogger } from '$lib/logging/errorLogger.js';
 
 function maxPage(total, limit) {
 	const maxPage = Math.ceil(total / limit); // Zero-based pagination
@@ -115,15 +113,7 @@ export const createTicket = async ({ title, description, created_by, images }) =
 	}
 };
 /** Update a ticket */
-export const updateTicket = async ({
-	id,
-	title,
-	description,
-	created_by,
-	assigned_to,
-	status,
-	images
-}) => {
+export const updateTicket = async ({ id, title, description, created_by, assigned_to, status }) => {
 	try {
 		const [updatedTicket] = await db
 			.update(tickets)
