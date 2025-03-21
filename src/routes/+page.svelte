@@ -1,5 +1,5 @@
 <script>
-	import { ArrowUpOutline, LockOpenOutline } from 'flowbite-svelte-icons';
+	import { ArrowUpIcon, LockOpenIcon } from 'heroicons-svelte/24/outline';
 
 	const features = [
 		{
@@ -8,27 +8,27 @@
 				'Superapp is build on Sveltekit, TailwindCSS and MongoDb. Tools that are a joy to work with. And everything runs locally, so the speed is amazing.',
 
 			href: '#',
-			icon: ArrowUpOutline
+			icon: ArrowUpIcon
 		},
 		{
 			name: 'Users and roles management',
 			description:
 				'The hard part is done, users can be added, roles can be assigned and you can focus on the fun part of building your app.',
 			href: '#',
-			icon: LockOpenOutline
+			icon: LockOpenIcon
 		},
 		{
 			name: 'Security',
 			description:
 				'Superapp is build with security in mind. We use the best practices to keep your data safe. AuthJS is used for authentication, and all your data is safely stored on a local database.',
 			href: '#',
-			icon: ArrowUpOutline
+			icon: ArrowUpIcon
 		},
 		{
 			name: 'Privacy and Analytics',
 			description:
 				"Privacy is very important to us, we don't like being followed around the internet and we don't want to do that to you. We only use the highest privacy respecting analytics tools.",
-			icon: ArrowUpOutline
+			icon: ArrowUpIcon
 		}
 	];
 </script>

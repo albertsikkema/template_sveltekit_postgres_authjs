@@ -1,31 +1,26 @@
-import {
-	UsersOutline,
-	ChartOutline,
-	CameraPhotoOutline,
-	FolderOutline
-} from 'flowbite-svelte-icons';
+import { HomeIcon, CameraIcon, FolderIcon, UsersIcon } from 'heroicons-svelte/24/outline';
 
 export const navigation = [
 	{
 		name: 'Dashboard',
 		href: '/dashboard',
-		icon: ChartOutline,
+		icon: HomeIcon,
 		permission: 'canSeeDashboard'
 	},
 	{
 		name: 'New Ticket',
 		href: '/dashboard/tickets/new',
-		icon: CameraPhotoOutline,
+		icon: CameraIcon,
 		permission: 'canCrudTickets'
 	},
 	{
 		name: 'Tickets',
 		href: '/dashboard/tickets',
-		icon: FolderOutline,
+		icon: FolderIcon,
 		count: 'opentickets',
 		permission: 'canCrudTickets'
 	},
-	{ name: 'Users', href: '/dashboard/users', icon: UsersOutline, permission: 'canCrudUsers' }
+	{ name: 'Users', href: '/dashboard/users', icon: UsersIcon, permission: 'canCrudUsers' }
 	// { name: 'Calendar', href: '#', icon: CalendarMonthOutline, count: '20+', permission: '' },
 	// { name: 'Documents', href: '#', icon: FileLinesOutline, permission: '' },
 	// { name: 'Reports', href: '#', icon: ChartPieOutline, permission: '' },
