@@ -15,7 +15,6 @@
 			.map((n) => n[0])
 			.join('');
 	} else {
-		console.log('user', $page.data.user.email);
 		userId = $page.data.user.email;
 		// if user has no name, get the initials from the email
 		initials = $page.data.user.email

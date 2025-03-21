@@ -1,5 +1,6 @@
 <script>
 	import { ArrowUpIcon, LockOpenIcon } from 'heroicons-svelte/24/outline';
+	import { goto } from '$app/navigation';
 
 	const features = [
 		{
@@ -44,8 +45,15 @@
 					class="h-8 w-auto"
 				/>
 			</a>
-
-			<div class="text-xl font-bold">Superapp</div>
+			<div class="flex items-center gap-x-6">
+				<div class="text-xl font-bold">Superapp</div>
+				<button
+					class="btn btn-outline btn-primary"
+					onclick={() => {
+						goto('/dashboard');
+					}}>Go</button
+				>
+			</div>
 		</nav>
 	</header>
 

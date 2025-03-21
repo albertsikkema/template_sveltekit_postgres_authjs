@@ -61,7 +61,6 @@ async function seedDatabase() {
 				knownUser.updated_at
 			]);
 			userIds.push(result.rows[0].id);
-			console.log(`Inserted Known User: ${knownUser.name}, ${knownUser.email}`);
 		}
 
 		// Seed additional random users
@@ -91,10 +90,8 @@ async function seedDatabase() {
 			]);
 			//   console.log('Result:', result.rows[0].id);
 			userIds.push(result.rows[0].id);
-			console.log(`Inserted User: ${user.name}, ${user.email}`);
 		}
 
-		console.log('User IDs:', userIds);
 		// Step 2: Seed Tickets
 
 		for (let i = 0; i < numberOfTickets; i++) {
@@ -124,7 +121,6 @@ async function seedDatabase() {
 				ticket.created_at,
 				ticket.updated_at
 			]);
-			console.log(`Inserted Ticket: Created by: ${ticket.created_by}, Title: ${ticket.title}`);
 		}
 	} catch (err) {
 		console.error(err.stack);

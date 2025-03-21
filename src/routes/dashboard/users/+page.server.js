@@ -10,8 +10,6 @@ export async function load(event) {
 		page = 1;
 	}
 
-	console.log('===> load', page, search, orderby, order);
-
 	try {
 		const { users, total, maxpage, currentpage } = await getUsers({
 			page,

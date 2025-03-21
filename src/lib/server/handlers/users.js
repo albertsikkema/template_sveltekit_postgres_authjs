@@ -62,7 +62,6 @@ export const getUsers = async (params = {}) => {
 			.limit(limit)
 			.offset(offset);
 
-		console.log('resultUsers', resultUsers);
 		// Return result
 		return {
 			users: resultUsers,
