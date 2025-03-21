@@ -41,7 +41,7 @@
 </script>
 
 <div
-	class="text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0"
+	class="text-base-content fixed top-0 left-0 z-10 flex h-full w-48 -translate-x-full flex-col justify-between bg-gray-200 transition-transform duration-300 md:translate-x-0 dark:bg-gray-900"
 >
 	<span>
 		<div class="flex h-16 items-center justify-around gap-2 border-b border-gray-300">
@@ -56,8 +56,8 @@
 								href={nav.href}
 								class={classs(
 									isActive(nav.href)
-										? 'text-primary bg-gray-50'
-										: 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+										? 'text-primary bg-gray-50 dark:bg-gray-900'
+										: 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600 dark:text-gray-200 dark:hover:bg-gray-200',
 									'group flex gap-x-3 rounded-md p-2 text-sm/6 '
 								)}
 							>
@@ -104,7 +104,7 @@
 	</span>
 </div>
 
-<div class="dock bottom-0 z-99 h-16 w-full bg-gray-200 md:hidden">
+<div class="dock bottom-0 z-99 h-16 w-full bg-gray-200 md:hidden dark:bg-gray-900">
 	{#each navigation as nav (nav.name)}
 		{#if isAuthorized(nav.permission)}
 			<a href={nav.href}>
@@ -115,7 +115,16 @@
 						'size-6 shrink-0'
 					)}
 				/>
-				<span class="dock-label"> {nav.name}</span>
+				<span
+					class={classs(
+						isActive(nav.href)
+							? 'text-primary'
+							: 'text-gray-400 group-hover:text-indigo-600 dark:text-gray-200',
+						'dock-label'
+					)}
+				>
+					{nav.name}</span
+				>
 			</a>
 		{/if}
 	{/each}

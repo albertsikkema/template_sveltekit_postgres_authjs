@@ -8,7 +8,7 @@
 <div class="w-full">
 	<Sidebar />
 	<main class="flex flex-col items-center justify-center md:ml-48">
-		<div class="w-full px-4 py-2">
+		<div class="hidden w-full px-4 py-2 md:block">
 			<Breadcrumb />
 		</div>
 		<div class="flex w-full max-w-7xl items-center justify-between px-4">
